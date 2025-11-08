@@ -8,6 +8,7 @@ import pandas as pd
 from datetime import datetime, date
 from sqlalchemy.orm import Session
 from typing import List, Optional, Tuple, Dict
+from pathlib import Path
 
 # Import local modules
 from models import Transaction, Category, CategoryType
