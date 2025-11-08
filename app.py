@@ -1,76 +1,35 @@
 """
-FinCo - Personal Finance Tracker
-Main Streamlit Application
-
-This is the entry point for the FinCo web application.
-It provides a multi-page interface for managing personal finances including:
-- Dashboard overview
-- Transaction management
-- Budget tracking
-- Goal setting
-- Investment tracking
-- Statement import
-- Settings configuration
-- Analytics dashboard
+FinCo - Simple Expense Tracker
+A minimal expense tracking application.
 """
 
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-from datetime import datetime, timedelta
-import os
-from pathlib import Path
-from dotenv import load_dotenv
+from datetime import datetime, date
 from sqlalchemy.orm import Session
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional
 
 # Import local modules
-from models import Transaction, Account, Category, CategoryType, Budget
-from db import init_db, get_db_session, DatabaseSession
-import utils
-from utils import (
-    format_currency,
-    get_monthly_summary,
-    get_transactions_by_month
-)
+from models import Transaction, Category, CategoryType
+from db import init_db, get_db_session
 
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
+# Initialize database
+init_db()
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Page-wide configuration - must be the first Streamlit command
+# Set page config
 st.set_page_config(
-    page_title="FinCo - Personal Finance Tracker",
+    page_title="FinCo - Expense Tracker",
     page_icon="💰",
-    layout="wide",  # Use full width of the browser
-    initial_sidebar_state="expanded",  # Sidebar expanded by default
-    menu_items={
-        'Get Help': 'https://github.com/yourusername/finco',
-        'Report a bug': 'https://github.com/yourusername/finco/issues',
-        'About': '# FinCo\nYour Personal Finance Companion v1.0.0'
-    }
+    layout="centered",
+    initial_sidebar_state="expanded"
 )
 
-# ============================================================================
-# SESSION STATE INITIALIZATION
-# ============================================================================
-
-# Initialize session state variables if they don't exist
-# Session state persists across reruns of the app
+# Initialize session state
 if 'page' not in st.session_state:
-    st.session_state.page = 'dashboard'  # Default landing page
-
-if 'user_id' not in st.session_state:
-    st.session_state.user_id = None  # Will be set after login
-
-if 'authenticated' not in st.session_state:
-    st.session_state.authenticated = False  # Authentication status
+    st.session_state.page = 'dashboard'
 
 # ============================================================================
-# SIDEBAR NAVIGATION
+# DATABASE FUNCTIONS
 # ============================================================================
 
 def render_sidebar():

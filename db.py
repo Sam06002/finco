@@ -21,67 +21,73 @@ engine = create_engine(
     pool_pre_ping=True  # Verify connections before using them
 )
 
-# Create database if it doesn't exist (for SQLite and PostgreSQL)
-if not database_exists(engine.url):
-    create_database(engine.url)
-    print(f"Created database at: {DATABASE_URL}")
+# Create a scoped session
+SessionLocal = scoped_session(
+    sessionmaker(autocommit=False, autoflush=False, bind=engine)
+)
 
-# Create session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Base class for all ORM models
+# Base class for declarative models
 Base = declarative_base()
 
-def init_db():
-    """
-    Initialize the database by creating all tables.
-    Import all models before calling this function.
-    """
-    # Import all models here to ensure they are registered with Base
-    from models import (
-        User, Account, Category, Transaction, 
-        Budget, Goal, Tag, Investment, NetWorthSnapshot
-    )
-    
-    # Create all tables in the database
-    Base.metadata.create_all(bind=engine)
-    print("Database tables created successfully!")
-
+# Dependency to get DB session
 def get_db():
-    """
-    Dependency function to get DB session (generator pattern).
-    Use this with FastAPI or in contexts where you need a generator.
-    
-    Usage:
-        for db in get_db():
-            # use db session
-            pass
-    """
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
-def get_db_session() -> Session:
-    """
-    Get a new database session.
-    Remember to close the session after use.
+def init_db():
+    # Import all models here to ensure they are registered with SQLAlchemy
+    from models import User, Category, Transaction
     
-    Usage:
-        db = get_db_session()
-        try:
-            # use db session
-            user = db.query(User).first()
-        finally:
-            db.close()
+    # Create all tables
+    Base.metadata.create_all(bind=engine)
     
-    Or use with context manager:
-        with get_db_session() as db:
-            # use db session
-            user = db.query(User).first()
-    """
-    return SessionLocal()
+    # Create default categories if they don't exist
+    db = SessionLocal()
+    try:
+        # Check if we have any categories
+        if not db.query(Category).first():
+            # Create a default user
+            default_user = User(
+                username="default",
+                email="user@example.com",
+                hashed_password=""  # Password should be hashed in a real app
+            )
+            db.add(default_user)
+            db.flush()  # To get the user_id
+            
+            # Default expense categories
+            default_categories = [
+                "Food & Dining",
+                "Shopping",
+                "Transportation",
+                "Housing",
+                "Utilities",
+                "Entertainment",
+                "Health",
+                "Other"
+            ]
+            
+            # Add default categories
+            for cat_name in default_categories:
+                category = Category(
+                    user_id=default_user.user_id,
+                    name=cat_name,
+                    type=CategoryType.EXPENSE
+                )
+                db.add(category)
+            
+            db.commit()
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()
+
+# Alias for get_db for backward compatibility
+get_db_session = get_db
 
 class DatabaseSession:
     """
