@@ -53,6 +53,7 @@ finance.db
 # Logs
 *.log
 logs/
+logs-*.txt
 
 # Uploaded files
 uploads/
