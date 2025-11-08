@@ -12,6 +12,13 @@ alembic>=1.13.0
 python-dateutil>=2.8.0
 pytz>=2023.0
 
+# Google Sheets Integration
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
+google-api-python-client>=2.100.0
+gspread>=5.12.0
+
 # Development
 typing-extensions>=4.0.0
 #
