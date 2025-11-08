@@ -1,0 +1,32 @@
+# Core Dependencies
+streamlit==1.32.0
+pandas==2.1.4
+SQLAlchemy==2.0.23
+matplotlib==3.8.2
+plotly==5.18.0
+pdfplumber==0.10.3
+python-dotenv==1.0.0
+bcrypt==4.1.2
+openpyxl==3.1.2  # Excel file support
+
+# Additional Utilities
+python-dateutil==2.8.2
+pydantic==2.5.3
+sqlalchemy-utils==0.41.1
+alembic==1.13.1
+
+# Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+
+# Installation Instructions:
+# 1. Create a virtual environment (recommended):
+#    python -m venv venv
+#    source venv/bin/activate  # On macOS/Linux
+#    venv\Scripts\activate     # On Windows
+#
+# 2. Install all dependencies:
+#    pip install -r requirements.txt
+#
+# 3. Verify installation:
+#    pip list
