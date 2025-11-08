@@ -1362,21 +1362,32 @@ def main():
     2. Renders the sidebar navigation
     3. Routes to the appropriate page based on user selection
     """
+    # Set page config first
+    st.set_page_config(
+        page_title="FinCo - Personal Finance Tracker",
+        page_icon="💰",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
     
-    # -----------------------------------------------------------------------
-    # Database Initialization
-    # -----------------------------------------------------------------------
-    # Initialize database tables if they don't exist
+    # Initialize database first
     try:
         init_db()
     except Exception as e:
         st.error(f"Database initialization error: {e}")
         st.stop()
     
-    # -----------------------------------------------------------------------
-    # Sidebar Navigation
-    # -----------------------------------------------------------------------
-    render_sidebar()
+    # Initialize session state for page routing
+    if 'page' not in st.session_state:
+        st.session_state.page = 'dashboard'
+    
+    # Render sidebar
+    try:
+        render_sidebar()
+    except Exception as e:
+        st.sidebar.error("Error loading sidebar. Please refresh the page.")
+        st.error(f"Application error: {str(e)}")
+        return
     
     # -----------------------------------------------------------------------
     # Page Routing
@@ -1409,4 +1420,15 @@ def main():
 # APPLICATION ENTRY POINT
 # ============================================================================
 if __name__ == "__main__":
+    # Set environment variable for SQLite to work in Streamlit Cloud
+    import os
+    os.environ["SQLALCHEMY_SILENCE_UBER_WARNING"] = "1"
+    
+    # Ensure the database directory exists
+    os.makedirs("./data", exist_ok=True)
+    
+    # Set SQLite database path
+    os.environ["DATABASE_URL"] = "sqlite:///./data/finance.db"
+    
+    # Run the app
     main()

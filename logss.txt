@@ -1,0 +1,1143 @@
+
+[     UTC     ] Logs for fincoapp.streamlit.app/
+────────────────────────────────────────────────────────────────────────────────────────
+[09:54:54] 🚀 Starting up repository: 'finco', branch: 'main', main module: 'app.py'
+[09:54:54] 🐙 Cloning repository...
+[09:54:54] 🐙 Cloning into '/mount/src/finco'...
+
+[09:54:54] 🐙 Cloned repository!
+[09:54:54] 🐙 Pulling code changes from Github...
+[09:54:55] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv[2025-11-08 09:54:55.429675] 
+Resolved 71 packages in 852ms
+  × Failed to download and build `pydantic-core==2.14.6`[2025-11-08 09:55:25.727986] 
+  ╰─▶ Build backend failed to build wheel through `build_wheel` (exit status:
+      1)
+
+      [stdout]
+      Running `maturin pep517 build-wheel -i
+      /home/adminuser/.cache/uv/builds-v0/.tmpCPz8ug/bin/python
+      --compatibility off`
+      Rust not found, installing into a temporary directory
+      cargo 1.91.0 (ea2d97820 2025-10-10)
+
+      [stderr]
+      Python reports SOABI: cpython-313-x86_64-linux-gnu
+      Computed rustc target triple: x86_64-unknown-linux-gnu
+      Installation directory: /home/adminuser/.cache/puccinialin
+      Downloading rustup-init from
+      https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+      Downloading rustup-init:   0%|          | 0.00/20.9M [00:00<?,
+      ?B/s]Downloading rustup-init:  34%|███▍      | 7.14M/20.9M [00:00<00:00,
+      71.4MB/s]Downloading rustup-init:  95%|█████████▍| 19.8M/20.9M
+      [00:00<00:00, 104MB/s] Downloading rustup-init: 100%|██████████|
+      20.9M/20.9M [00:00<00:00, 101MB/s]
+      Installing rust to /home/adminuser/.cache/puccinialin/rustup
+      info: profile set to 'minimal'
+      info: default host triple is x86_64-unknown-linux-gnu
+      info: syncing channel updates for 'stable-x86_64-unknown-linux-gnu'
+      info: latest update on 2025-10-30, rust version 1.91.0 (f8297e351
+      2025-10-28)
+      info: downloading component 'cargo'
+      info: downloading component 'rust-std'
+      info: downloading component 'rustc'
+      info: installing component 'cargo'
+      info: installing component 'rust-std'
+      info: installing component 'rustc'
+      info: default toolchain set to 'stable-x86_64-unknown-linux-gnu'
+      Checking if cargo is installed
+          Updating crates.io index
+       Downloading crates ...
+        Downloaded autocfg v1.1.0
+        Downloaded ahash v0.8.6
+        Downloaded equivalent v1.0.1
+        Downloaded cfg-if v1.0.0
+        Downloaded bitflags v1.3.2
+        Downloaded cc v1.0.79
+        Downloaded form_urlencoded v1.2.0
+        Downloaded enum_dispatch v0.3.12
+        Downloaded itoa v1.0.8
+        Downloaded lexical-core v0.8.5
+        Downloaded lexical-parse-integer v0.8.6
+        Downloaded lock_api v0.4.10
+        Downloaded once_cell v1.18.0
+        Downloaded pyo3-macros v0.20.0
+        Downloaded wasi v0.11.0+wasi-snapshot-preview1
+        Downloaded target-lexicon v0.12.9
+        Downloaded windows-targets v0.48.1
+        Downloaded lexical-util v0.8.5
+        Downloaded url v2.4.1
+        Downloaded num-bigint v0.4.4
+        Downloaded pyo3 v0.20.0
+        Downloaded windows_aarch64_gnullvm v0.48.0
+        Downloaded lexical-write-float v0.8.5
+        Downloaded windows_aarch64_msvc v0.48.0
+        Downloaded unicode-normalization v0.1.22
+        Downloaded windows_i686_gnu v0.48.0
+        Downloaded python3-dll-a v0.2.9
+        Downloaded memchr v2.6.3
+        Downloaded windows_i686_msvc v0.48.0
+        Downloaded libc v0.2.147
+        Downloaded lexical-parse-float v0.8.5
+        Downloaded windows_x86_64_gnu v0.48.0
+        Downloaded jiter v0.0.4
+        Downloaded windows_x86_64_gnullvm v0.48.0
+        Downloaded hashbrown v0.14.0
+        Downloaded regex v1.10.2
+        Downloaded base64 v0.21.5
+        Downloaded aho-corasick v1.0.2
+        Downloaded uuid v1.5.0
+        Downloaded unicode-ident v1.0.10
+        Downloaded unicode-bidi v0.3.13
+        Downloaded strum_macros v0.25.3
+        Downloaded idna v0.4.0
+        Downloaded speedate v0.13.0
+        Downloaded strum v0.25.0
+        Downloaded smallvec v1.11.1
+        Downloaded serde_derive v1.0.190
+        Downloaded serde_json v1.0.108
+        Downloaded scopeguard v1.1.0
+        Downloaded windows_x86_64_msvc v0.48.0
+        Downloaded zerocopy v0.7.20
+        Downloaded serde v1.0.190
+        Downloaded regex-automata v0.4.3
+        Downloaded syn v2.0.38
+        Downloaded regex-syntax v0.8.2
+        Downloaded ryu v1.0.14
+        Downloaded rustversion v1.0.13
+        Downloaded quote v1.0.29
+        Downloaded pyo3-macros-backend v0.20.0
+        Downloaded pyo3-ffi v0.20.0
+        Downloaded zerocopy-derive v0.7.20
+        Downloaded proc-macro2 v1.0.69
+        Downloaded parking_lot v0.12.1
+        Downloaded getrandom v0.2.10
+        Downloaded version_check v0.9.4
+        Downloaded unindent v0.2.3
+        Downloaded tinyvec_macros v0.1.1
+        Downloaded tinyvec v1.6.0
+        Downloaded static_assertions v1.1.0
+        Downloaded redox_syscall v0.3.5
+        Downloaded percent-encoding v2.3.0
+        Downloaded heck v0.4.1
+        Downloaded pyo3-build-config v0.20.0
+        Downloaded parking_lot_core v0.9.8
+        Downloaded num-traits v0.2.16
+        Downloaded num-integer v0.1.45
+        Downloaded memoffset v0.9.0
+        Downloaded lexical-write-integer v0.8.5
+        Downloaded indoc v2.0.4
+        Downloaded indexmap v2.0.0
+      📦 Including license file `LICENSE`
+      🍹 Building a mixed python/rust project
+      🔗 Found pyo3 bindings
+      🐍 Found CPython 3.13 at
+      /home/adminuser/.cache/uv/builds-v0/.tmpCPz8ug/bin/python
+      📡 Using build options features, bindings from pyproject.toml
+         Compiling autocfg v1.1.0
+         Compiling proc-macro2 v1.0.69
+         Compiling unicode-ident v1.0.10
+         Compiling quote v1.0.29
+         Compiling target-lexicon v0.12.9
+         Compiling python3-dll-a v0.2.9
+         Compiling once_cell v1.18.0
+         Compiling libc v0.2.147
+         Compiling static_assertions v1.1.0
+         Compiling heck v0.4.1
+         Compiling cfg-if v1.0.0
+         Compiling version_check v0.9.4
+         Compiling parking_lot_core v0.9.8
+         Compiling rustversion v1.0.13
+         Compiling scopeguard v1.1.0
+         Compiling smallvec v1.11.1
+         Compiling lexical-util v0.8.5
+         Compiling tinyvec_macros v0.1.1
+         Compiling serde v1.0.190
+         Compiling memchr v2.6.3
+         Compiling tinyvec v1.6.0
+         Compiling unicode-bidi v0.3.13
+         Compiling indoc v2.0.4
+         Compiling zerocopy v0.7.20
+         Compiling num-traits v0.2.16
+         Compiling lock_api v0.4.10
+         Compiling num-integer v0.1.45
+         Compiling num-bigint v0.4.4
+         Compiling memoffset v0.9.0
+         Compiling ahash v0.8.6
+         Compiling unindent v0.2.3
+         Compiling equivalent v1.0.1
+         Compiling regex-syntax v0.8.2
+         Compiling aho-corasick v1.0.2
+         Compiling serde_json v1.0.108
+         Compiling pyo3-build-config v0.20.0
+         Compiling syn v2.0.38
+         Compiling percent-encoding v2.3.0
+         Compiling hashbrown v0.14.0
+         Compiling ryu v1.0.14
+         Compiling itoa v1.0.8
+         Compiling uuid v1.5.0
+         Compiling getrandom v0.2.10
+         Compiling unicode-normalization v0.1.22
+         Compiling form_urlencoded v1.2.0
+         Compiling base64 v0.21.5
+         Compiling lexical-parse-integer v0.8.6
+         Compiling lexical-write-integer v0.8.5
+         Compiling parking_lot v0.12.1
+         Compiling lexical-parse-float v0.8.5
+         Compiling lexical-write-float v0.8.5
+         Compiling idna v0.4.0
+         Compiling indexmap v2.0.0
+         Compiling url v2.4.1
+         Compiling lexical-core v0.8.5
+         Compiling pyo3-ffi v0.20.0
+         Compiling pyo3 v0.20.0
+         Compiling pydantic-core v2.14.6
+      (/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src)
+         Compiling regex-automata v0.4.3
+      error: failed to run custom build command for `pydantic-core v2.14.6
+      (/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src)`
+
+      Caused by:
+        process didn't exit successfully:
+      `/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/target/release/build/pydantic-core-32d324720076a5ad/build-script-build`
+      (exit status: 101)
+        --- stdout
+        cargo:rustc-cfg=Py_3_6
+        cargo:rustc-cfg=Py_3_7
+        cargo:rustc-cfg=Py_3_8
+        cargo:rustc-cfg=Py_3_9
+        cargo:rustc-cfg=Py_3_10
+        cargo:rustc-cfg=Py_3_11
+        cargo:rustc-cfg=Py_3_12
+        cargo:rustc-cfg=Py_3_13
+        cargo:rerun-if-changed=python/pydantic_core/core_schema.py
+        cargo:rerun-if-changed=generate_self_schema.py
+
+        --- stderr
+        Traceback (most recent call last):
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 192, in eval_forward_ref
+            return type_._evaluate(core_schema.__dict__, None, set())
+                   ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        TypeError: ForwardRef._evaluate() missing 1 required keyword-only
+      argument: 'recursive_guard'
+
+        During handling of the above exception, another exception occurred:
+
+        Traceback (most recent call last):
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 240, in <module>
+            main()
+            ~~~~^^
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 210, in main
+            value = get_schema(s, definitions)
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 54, in get_schema
+            return type_dict_schema(obj, definitions)
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 152, in type_dict_schema
+            field_type = eval_forward_ref(field_type)
+          File
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/generate_self_schema.py",
+      line 195, in eval_forward_ref
+            return type_._evaluate(core_schema.__dict__, None)
+                   ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        TypeError: ForwardRef._evaluate() missing 1 required keyword-only
+      argument: 'recursive_guard'
+
+        thread 'main' (4349) panicked at build.rs:29:9:
+        generate_self_schema.py failed with exit status: 1
+        note: run with `RUST_BACKTRACE=1` environment variable to display
+      a backtrace
+      warning: build failed, waiting for other jobs to finish...
+      💥 maturin failed
+        Caused by: Failed to build a native library through cargo
+        Caused by: Cargo build finished with "exit status:
+      101": `env -u CARGO PYO3_BUILD_EXTENSION_MODULE="1"
+      PYO3_ENVIRONMENT_SIGNATURE="cpython-3.13-64bit"
+      PYO3_PYTHON="/home/adminuser/.cache/uv/builds-v0/.tmpCPz8ug/bin/python"
+      PYTHON_SYS_EXECUTABLE="/home/adminuser/.cache/uv/builds-v0/.tmpCPz8ug/bin/python"
+      "cargo" "rustc" "--features" "pyo3/extension-module"
+      "--message-format" "json-render-diagnostics" "--manifest-path"
+      "/home/adminuser/.cache/uv/sdists-v6/pypi/pydantic-core/2.14.6/WhUD7Zva-2EfcBu4x_a-R/src/Cargo.toml"
+      "--release" "--lib" "--crate-type" "cdylib"`
+      Error: command ['maturin', 'pep517', 'build-wheel', '-i',
+      '/home/adminuser/.cache/uv/builds-v0/.tmpCPz8ug/bin/python',
+      '--compatibility', 'off'] returned non-zero exit status 1
+
+  help: `pydantic-core` was included because `pydantic==2.5.3` depends on
+        `pydantic-core`
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv[2025-11-08 09:55:25.775108] 
+Resolved [2025-11-08 09:55:25.831754] 4 packages[2025-11-08 09:55:25.832174]  [2025-11-08 09:55:25.832705] in 53ms[2025-11-08 09:55:25.833061] 
+Prepared 1 package in 43ms
+Installed 4 packages in 16ms
+ + markdown-it-py==4.0.0
+ + mdurl==0.1.2[2025-11-08 09:55:25.895071] 
+ + pygments==2.19.2
+ + rich==14.2.0
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+──────────────────────────────────────── pip ───────────────────────────────────────────
+
+Using standard pip install.
+Collecting streamlit==1.32.0 (from -r /mount/src/finco/requirements.txt (line 2))
+  Downloading streamlit-1.32.0-py2.py3-none-any.whl.metadata (8.5 kB)
+Collecting pandas==2.1.4 (from -r /mount/src/finco/requirements.txt (line 3))
+  Downloading pandas-2.1.4.tar.gz (4.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 71.6 MB/s eta 0:00:00[2025-11-08 09:55:28.317220] 
+  Installing build dependencies: started
+  Installing build dependencies: still running...
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [105 lines of output]
+      + meson setup /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/.mesonpy-dkp4kb7s/build -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md --vsenv --native-file=/tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/.mesonpy-dkp4kb7s/build/meson-python-native-file.ini
+      The Meson build system
+      Version: 1.2.1
+      Source dir: /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd
+      Build dir: /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/.mesonpy-dkp4kb7s/build
+      Build type: native build
+      Project name: pandas
+      Project version: 2.1.4
+      C compiler for the host machine: cc (gcc 12.2.0 "cc (Debian 12.2.0-14+deb12u1) 12.2.0")
+      C linker for the host machine: cc ld.bfd 2.40
+      C++ compiler for the host machine: c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14+deb12u1) 12.2.0")
+      C++ linker for the host machine: c++ ld.bfd 2.40
+      Cython compiler for the host machine: cython (cython 0.29.37)
+      Host machine cpu family: x86_64
+      Host machine cpu: x86_64
+      Program python found: YES (/home/adminuser/venv/bin/python)
+      Did not find pkg-config by name 'pkg-config'
+      Found Pkg-config: NO
+      Run-time dependency python found: YES 3.13
+      Build targets in project: 53
+      
+      pandas 2.1.4
+      
+        User defined options
+          Native files: /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/.mesonpy-dkp4kb7s/build/meson-python-native-file.ini
+          buildtype   : release
+          vsenv       : True
+          b_ndebug    : if-release
+          b_vscrt     : md
+      
+      Found ninja-1.13.0.git.kitware.jobserver-pipe-1 at /tmp/pip-build-env-32vt404_/normal/bin/ninja
+      
+      Visual Studio environment is needed to run Ninja. It is recommended to use Meson wrapper:
+      /tmp/pip-build-env-32vt404_/overlay/bin/meson compile -C .
+      + /tmp/pip-build-env-32vt404_/normal/bin/ninja
+      [1/151] Generating pandas/_libs/algos_common_helper_pxi with a custom command
+      [2/151] Generating pandas/_libs/index_class_helper_pxi with a custom command
+      [3/151] Generating pandas/_libs/hashtable_class_helper_pxi with a custom command
+      [4/151] Generating pandas/_libs/sparse_op_helper_pxi with a custom command
+      [5/151] Generating pandas/_libs/intervaltree_helper_pxi with a custom command
+      [6/151] Generating pandas/_libs/hashtable_func_helper_pxi with a custom command
+      [7/151] Generating pandas/_libs/khash_primitive_helper_pxi with a custom command
+      [8/151] Generating pandas/_libs/algos_take_helper_pxi with a custom command
+      [9/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/base.pyx
+      [10/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/ccalendar.pyx
+      [11/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/dtypes.pyx
+      [12/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/np_datetime.pyx
+      [13/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/nattype.pyx
+      [14/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/arrays.pyx
+      [15/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/indexing.pyx
+      [16/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/offsets.pyx
+      [17/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/tzconversion.pyx
+      [18/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/conversion.pyx
+      [19/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/vectorized.pyx
+      [20/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/parsing.pyx
+      [21/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/fields.pyx
+      [22/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/timezones.pyx
+      [23/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/timestamps.pyx
+      [24/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/period.pyx
+      [25/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/ops_dispatch.pyx
+      [26/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/hashing.pyx
+      [27/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/strptime.pyx
+      [28/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslibs/timedeltas.pyx
+      [29/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/missing.pyx
+      [30/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/properties.pyx
+      [31/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/byteswap.pyx
+      [32/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/testing.pyx
+      [33/151] Compiling C object pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/meson-generated_pandas__libs_tslibs_base.pyx.c.o
+      FAILED: [code=1] pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/meson-generated_pandas__libs_tslibs_base.pyx.c.o
+      cc -Ipandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p -Ipandas/_libs/tslibs -I../../pandas/_libs/tslibs -I../../../../pip-build-env-32vt404_/overlay/lib/python3.13/site-packages/numpy/core/include -I../../pandas/_libs/include -I/usr/local/include/python3.13 -fvisibility=hidden -fdiagnostics-color=always -DNDEBUG -D_FILE_OFFSET_BITS=64 -w -std=c99 -O3 -DNPY_NO_DEPRECATED_API=0 -DNPY_TARGET_VERSION=NPY_1_21_API_VERSION -fPIC -MD -MQ pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/meson-generated_pandas__libs_tslibs_base.pyx.c.o -MF pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/meson-generated_pandas__libs_tslibs_base.pyx.c.o.d -o pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/meson-generated_pandas__libs_tslibs_base.pyx.c.o -c pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c
+      pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c: In function ‘__Pyx_PyInt_As_long’:
+      pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c:5397:27: error: too few arguments to function ‘_PyLong_AsByteArray’
+       5397 |                 int ret = _PyLong_AsByteArray((PyLongObject *)v,
+            |                           ^~~~~~~~~~~~~~~~~~~
+      In file included from /usr/local/include/python3.13/longobject.h:107,
+                       from /usr/local/include/python3.13/Python.h:82,
+                       from pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c:6:
+      /usr/local/include/python3.13/cpython/longobject.h:111:17: note: declared here
+        111 | PyAPI_FUNC(int) _PyLong_AsByteArray(PyLongObject* v,
+            |                 ^~~~~~~~~~~~~~~~~~~
+      pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c: In function ‘__Pyx_PyInt_As_int’:
+      pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so.p/pandas/_libs/tslibs/base.pyx.c:5631:27: error: too few arguments to function ‘_PyLong_AsByteArray’
+       5631 |                 int ret = _PyLong_AsByteArray((PyLongObject *)v,
+            |                           ^~~~~~~~~~~~~~~~~~~
+      /usr/local/include/python3.13/cpython/longobject.h:111:17: note: declared here
+        111 | PyAPI_FUNC(int) _PyLong_AsByteArray(PyLongObject* v,
+            |                 ^~~~~~~~~~~~~~~~~~~
+      [34/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/internals.pyx
+      [35/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/ops.pyx
+      [36/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/sas.pyx
+      [37/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/index.pyx
+      [38/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/reshape.pyx
+      [39/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/writers.pyx
+      [40/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/window/indexers.pyx
+      [41/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/tslib.pyx
+      [42/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/parsers.pyx
+      [43/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/lib.pyx
+      [44/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/window/aggregations.pyx
+      [45/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/interval.pyx
+      [46/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/sparse.pyx
+      [47/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/hashtable.pyx
+      [48/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/algos.pyx
+      [49/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/groupby.pyx
+      [50/151] Compiling Cython source /tmp/pip-install-07gno_pw/pandas_2d25a0bf09354583926eb785d05fa1dd/pandas/_libs/join.pyx
+      ninja: build stopped: subcommand failed.
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using standard pip install.
+Collecting rich>=10.14.0
+  Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=10.14.0)
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.14.0)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.14.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 243.4/243.4 kB 11.3 MB/s eta 0:00:00[2025-11-08 09:57:48.441103] 
+Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 128.3 MB/s eta 0:00:00[2025-11-08 09:57:48.455479] 
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 60.1 MB/s eta 0:00:00[2025-11-08 09:57:48.489190] 
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: pygments, mdurl, markdown-it-py, rich
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.19.2
+    Uninstalling Pygments-2.19.2:
+      Successfully uninstalled Pygments-2.19.2
+  Attempting uninstall: mdurl
+    Found existing installation: mdurl 0.1.2
+    Uninstalling mdurl-0.1.2:
+      Successfully uninstalled mdurl-0.1.2
+  Attempting uninstall: markdown-it-py
+    Found existing installation: markdown-it-py 4.0.0
+    Uninstalling markdown-it-py-4.0.0:
+      Successfully uninstalled markdown-it-py-4.0.0
+  Attempting uninstall: rich
+    Found existing installation: rich 14.2.0
+    Uninstalling rich-14.2.0:
+      Successfully uninstalled rich-14.2.0
+Successfully installed markdown-it-py-4.0.0 mdurl-0.1.2 pygments-2.19.2 rich-14.2.0
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[09:57:50] ❗️ installer returned a non-zero exit code
+[09:57:50] ❗️ Error during processing dependencies! Please fix the error and push an update, or try restarting the app.
+[10:02:04] 🐙 Pulling code changes from Github...
+[10:02:04] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 68 packages in 317ms
+Prepared 68 packages in 1.54s
+Installed 68 packages in 152ms
+ + alembic==1.17.1
+ + altair==5.5.0
+ + annotated-types==0.7.0
+ + attrs==25.4.0
+ + bcrypt==5.0.0
+ + blinker==1.9.0
+ + cachetools==6.2.1
+ + certifi==2025.10.5
+ +[2025-11-08 10:02:06.705726]  cffi==2.0.0
+ + charset-normalizer==3.4.4
+ + click==8.3.0
+ + contourpy==1.3.3
+ + coverage==7.11.1
+ + cryptography==46.0.3
+ + cycler[2025-11-08 10:02:06.706006] ==0.12.1
+ + et-xmlfile==2.0.0
+ + fonttools==4.60.1
+ + gitdb==4.0.12
+ + gitpython==3.1.45
+ + greenlet==3.2.4
+ + idna==3.11
+ + iniconfig==2.3.0
+ + jinja2==3.1.6
+ + jsonschema==4.25.1
+ + jsonschema-specifications==2025.9.1[2025-11-08 10:02:06.706238] 
+ + kiwisolver==1.4.9
+ + mako==1.3.10
+ + markupsafe==3.0.3
+ + matplotlib==3.10.7
+ + narwhals==2.10.2
+ + numpy==2.3.4
+ + openpyxl==3.1.5
+ + packaging==[2025-11-08 10:02:06.706391] 25.0
+ + pandas==2.3.3
+ + pdfminer-six==20250506
+ + pdfplumber==0.11.7
+ + pillow==12.0.0
+ + plotly==6.4.0
+ + pluggy==1.6.0
+ + protobuf==6.33.0
+ + [2025-11-08 10:02:06.706516] pyarrow==21.0.0
+ + pycparser==2.23
+ + pydantic==2.12.4
+ + pydantic-core==2.41.5
+ + pydeck==0.9.1
+ + pyparsing==3.2.5
+ + pypdfium2==5.0.0
+ + pytest==7.4.4
+ + pytest-cov==[2025-11-08 10:02:06.706638] 4.1.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.1
+ + pytz==2025.2
+ + referencing==0.37.0
+ + requests==2.32.5
+ + rpds-py==0.28.0
+ + six==1.17.0
+ + smmap==5.0.2
+ + sqlalchemy==[2025-11-08 10:02:06.706835] 2.0.44
+ + sqlalchemy-utils==0.42.0
+ + streamlit==1.51.0
+ + tenacity==9.1.2
+ + toml==0.10.2
+ + tornado==6.5.2
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + tzdata==[2025-11-08 10:02:06.706971] 2025.2
+ + urllib3==2.5.0
+ + watchdog==6.0.0
+Checking if Streamlit is installed
+Found Streamlit version 1.51.0 in the environment
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Audited 1 package in 4ms
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[10:02:09] 🐍 Python dependencies were installed from /mount/src/finco/requirements.txt using uv.
+[10:02:09] 📦 Processed dependencies!
+
+
+
+[10:02:11] 🔄 Updated app!
+[10:06:38] 🐙 Pulling code changes from Github...
+[10:06:38] 📦 Processing dependencies...
+[10:06:38] 📦 Processed dependencies!
+[10:06:39] 🔄 Updated app!
+Created database at: sqlite:///finance.db
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+[10:19:22] 🔌 Disconnecting...
+[10:19:27] 🖥 Provisioning machine...
+[10:19:26] 🚀 Starting up repository: 'finco', branch: 'main', main module: 'app.py'
+[10:19:26] 🐙 Cloning repository...
+[10:19:27] 🐙 Cloning into '/mount/src/finco'...
+
+[10:19:27] 🐙 Cloned repository!
+[10:19:27] 🐙 Pulling code changes from Github...
+[10:19:27] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 68 packages in 827ms
+[10:19:29] 🎛 Preparing system...
+[10:19:29] ⛓ Spinning up manager process...
+Prepared 68 packages in 2.19s
+Installed 68 packages in 164ms
+ + alembic==1.17.1
+ + altair==5.5.0
+ + annotated-types==0.7.0
+ + attrs==25.4.0
+ + bcrypt==5.0.0
+ + blinker==1.9.0[2025-11-08 10:19:30.970865] 
+ + cachetools==6.2.1
+ + certifi==2025.10.5
+ + cffi==2.0.0
+ + charset-normalizer==3.4.4
+ + click==8.3.0
+ + contourpy==1.3.3
+ + coverage==7.11.1
+ + cryptography==46.0.3
+ + cycler==0.12.1
+ + et-xmlfile==2.0.0
+ + fonttools==4.60.1
+ + gitdb==4.0.12
+ + [2025-11-08 10:19:30.971362] gitpython==3.1.45
+ + greenlet==3.2.4
+ + idna==3.11
+ + iniconfig==2.3.0
+ + jinja2==[2025-11-08 10:19:30.971628] 3.1.6
+ + jsonschema==4.25.1
+ + jsonschema-specifications==2025.9.1
+ + kiwisolver==1.4.9
+ + mako==1.3.10
+ + markupsafe==3.0.3
+ + matplotlib==3.10.7
+ + narwhals==2.10.2
+ + numpy==2.3.4
+ + [2025-11-08 10:19:30.972009] openpyxl==3.1.5
+ + packaging==25.0
+ + pandas==2.3.3
+ + pdfminer-six==20250506
+ + pdfplumber[2025-11-08 10:19:30.972211] ==0.11.7
+ + pillow==12.0.0
+ + plotly==6.4.0
+ + pluggy==1.6.0
+ + [2025-11-08 10:19:30.972347] protobuf==6.33.0
+ + pyarrow==21.0.0
+ + pycparser==2.23
+ + pydantic==2.12.4
+ + [2025-11-08 10:19:30.972479] pydantic-core==2.41.5
+ + pydeck==0.9.1
+ + pyparsing==3.2.5
+ + pypdfium2==5.0.0
+ + pytest==[2025-11-08 10:19:30.972603] 7.4.4
+ + pytest-cov==4.1.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.1
+ + pytz[2025-11-08 10:19:30.972723] ==2025.2
+ + referencing==0.37.0
+ + requests==2.32.5
+ +[2025-11-08 10:19:30.972836]  rpds-py==0.28.0
+ + six==1.17.0
+ + smmap==5.0.2
+ + sqlalchemy==2.0.44
+ + sqlalchemy-utils==0.42.0
+ + streamlit==1.51.0
+ + tenacity==9.1.2
+ + toml==0.10.2[2025-11-08 10:19:30.973086] 
+ + tornado==6.5.2
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + tzdata==[2025-11-08 10:19:30.973237] 2025.2
+ + urllib3==2.5.0
+ + watchdog==6.0.0
+Checking if Streamlit is installed
+Found Streamlit version 1.51.0 in the environment
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 4 packages in 140ms
+Prepared 4 packages in 112ms
+Installed 4 packages in 12ms
+ + markdown-it-py==4.0.0
+ + mdurl==0.1.2[2025-11-08 10:19:33.495771] 
+ + pygments==2.19.2
+ + rich==14.2.0
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[10:19:34] 🐍 Python dependencies were installed from /mount/src/finco/requirements.txt using uv.
+Check if streamlit is installed
+Streamlit is already installed
+[10:19:35] 📦 Processed dependencies!
+
+
+
+Created database at: sqlite:///finance.db
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
+Database tables created successfully!
+────────────────────── Traceback (most recent call last) ───────────────────────
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/exec_code.py:129 in exec_func_with_error_handling                        
+                                                                                
+  /home/adminuser/venv/lib/python3.13/site-packages/streamlit/runtime/scriptru  
+  nner/script_runner.py:669 in code_to_exec                                     
+                                                                                
+  /mount/src/finco/app.py:1412 in <module>                                      
+                                                                                
+    1409 # APPLICATION ENTRY POINT                                              
+    1410 # ===================================================================  
+    1411 if __name__ == "__main__":                                             
+  ❱ 1412 │   main()                                                             
+    1413                                                                        
+                                                                                
+  /mount/src/finco/app.py:1379 in main                                          
+                                                                                
+    1376 │   # ---------------------------------------------------------------  
+    1377 │   # Sidebar Navigation                                               
+    1378 │   # ---------------------------------------------------------------  
+  ❱ 1379 │   render_sidebar()                                                   
+    1380 │                                                                      
+    1381 │   # ---------------------------------------------------------------  
+    1382 │   # Page Routing                                                     
+                                                                                
+  /mount/src/finco/app.py:132 in render_sidebar                                 
+                                                                                
+     129 │   │   │   │   │   │      use_container_width=True,                   
+     130 │   │   │   │   │   │      type="primary" if st.session_state.page ==  
+     131 │   │   │   st.session_state.page = page_key                           
+  ❱  132 │   │   │   st.experimental_rerun()                                    
+     133 │                                                                      
+     134 │   # Add some space before the version info                           
+     135 │   st.sidebar.markdown("---")                                         
+────────────────────────────────────────────────────────────────────────────────
+AttributeError: module 'streamlit' has no attribute 'experimental_rerun'
