@@ -129,7 +129,7 @@ def render_sidebar():
                            use_container_width=True,
                            type="primary" if st.session_state.page == page_key else "secondary"):
             st.session_state.page = page_key
-            st.experimental_rerun()
+            st.rerun()
     
     # Add some space before the version info
     st.sidebar.markdown("---")
@@ -140,7 +140,7 @@ def render_sidebar():
         # Clear session state and redirect to login
         for key in list(st.session_state.keys()):
             del st.session_state[key]
-        st.experimental_rerun()
+        st.rerun()
     
     # -----------------------------------------------------------------------
     # Footer Section
