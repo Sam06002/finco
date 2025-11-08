@@ -7,7 +7,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, date
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Tuple, Dict
 
 # Import local modules
 from models import Transaction, Category, CategoryType
