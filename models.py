@@ -1,15 +1,13 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum, Text, Boolean
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 import enum
 from datetime import datetime
 from db import Base
 
-# Enums
 class CategoryType(enum.Enum):
     EXPENSE = "expense"
     INCOME = "income"
 
-# User Model
 class User(Base):
     __tablename__ = "users"
     
@@ -22,11 +20,7 @@ class User(Base):
     # Relationships
     categories = relationship("Category", back_populates="user", cascade="all, delete-orphan")
     transactions = relationship("Transaction", back_populates="user", cascade="all, delete-orphan")
-    
-    def __repr__(self):
-        return f"<User(user_id={self.user_id}, username='{self.username}')>"
 
-# Category Model
 class Category(Base):
     __tablename__ = "categories"
     
@@ -39,11 +33,7 @@ class Category(Base):
     # Relationships
     user = relationship("User", back_populates="categories")
     transactions = relationship("Transaction", back_populates="category")
-    
-    def __repr__(self):
-        return f"<Category(category_id={self.category_id}, name='{self.name}')>"
 
-# Transaction Model
 class Transaction(Base):
     __tablename__ = "transactions"
     
