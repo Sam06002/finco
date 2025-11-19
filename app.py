@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import calendar
 from datetime import datetime
 from pathlib import Path
 from typing import Tuple
 
+import numpy as np
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 from db import (
@@ -188,6 +191,7 @@ def expense_form(default_date: datetime | None = None, form_key: str = "expense_
             )
             if success:
                 st.success("Expense saved to Google Sheets ✅")
+                st.rerun()
 
 
 def income_form(default_date: datetime | None = None, form_key: str = "income_form"):
@@ -217,25 +221,150 @@ def income_form(default_date: datetime | None = None, form_key: str = "income_fo
             )
             if success:
                 st.success("Income saved to Google Sheets ✅")
+                st.rerun()
 
 
 # -----------------------------------------------------------------------------
 # Pages
 # -----------------------------------------------------------------------------
+def format_inr(amount: float) -> str:
+    if pd.isna(amount):
+        return "₹0.00"
+
+    sign = "-" if amount < 0 else ""
+    amount = abs(float(amount))
+    integer_part = int(amount)
+    fraction_part = amount - integer_part
+
+    last_three = str(integer_part % 1000)
+    remaining = integer_part // 1000
+    parts = []
+
+    while remaining > 0:
+        parts.append(f"{remaining % 100:02d}")
+        remaining //= 100
+
+    if parts:
+        formatted_int = f"{','.join(reversed(parts))},{int(last_three):03d}"
+    else:
+        formatted_int = last_three
+
+    formatted_fraction = f"{fraction_part:.2f}"[1:]
+    return f"{sign}₹{formatted_int}{formatted_fraction}"
+
+
+def show_monthly_expense_chart(expenses: pd.DataFrame) -> None:
+    now = datetime.now()
+    month_names = list(calendar.month_name)[1:]
+    years = list(range(2023, 2027))
+
+    default_month = now.month
+    default_year = now.year
+
+    col_month, col_year = st.columns(2)
+    with col_month:
+        month_name = st.selectbox(
+            "Month",
+            month_names,
+            index=default_month - 1,
+            key="monthly_expense_month",
+        )
+    with col_year:
+        year = st.selectbox(
+            "Year",
+            years,
+            index=years.index(default_year) if default_year in years else 0,
+            key="monthly_expense_year",
+        )
+
+    month = month_names.index(month_name) + 1
+    filtered = expenses.copy()
+
+    if not filtered.empty:
+        filtered["Date"] = pd.to_datetime(filtered.get("Date"), errors="coerce")
+        filtered["Amount"] = pd.to_numeric(filtered.get("Amount"), errors="coerce")
+
+        filtered = filtered.dropna(subset=["Date", "Amount"])  # type: ignore[arg-type]
+        filtered = filtered.loc[
+            (filtered["Date"].dt.month == month)
+            & (filtered["Date"].dt.year == year)
+        ]
+
+    if filtered.empty:
+        st.info(
+            "No expenses recorded for this month.\nAdd an expense to see the chart update!"
+        )
+        return
+
+    if "Category" not in filtered.columns:
+        st.warning("Category column is missing in the Expenses sheet.")
+        return
+
+    grouped = (
+        filtered.assign(Amount=filtered["Amount"].abs())
+        .groupby("Category", as_index=False)["Amount"]
+        .sum()
+        .sort_values(by="Amount", ascending=False)
+    )
+
+    if grouped.empty:
+        st.info("No expense data available for this month.")
+        return
+
+    grouped["FormattedAmount"] = grouped["Amount"].apply(format_inr)
+
+    fig = px.bar(
+        grouped,
+        x="Category",
+        y="Amount",
+        title=f"Monthly Expenses - {month_name} {year}",
+        color="Amount",
+        color_continuous_scale="Blues",
+        height=500,
+    )
+
+    max_amount = grouped["Amount"].max()
+    tick_count = min(6, max(2, len(grouped) + 1))
+    tickvals = np.linspace(0, max_amount, tick_count) if max_amount > 0 else [0]
+    ticktext = [format_inr(val) for val in tickvals]
+
+    fig.update_layout(
+        margin=dict(l=40, r=20, t=60, b=40),
+        coloraxis_showscale=False,
+    )
+    fig.update_traces(
+        marker_line_width=0,
+        customdata=grouped["FormattedAmount"],
+        hovertemplate="Category: %{x}<br>Amount: %{customdata}<extra></extra>",
+    )
+    fig.update_yaxes(
+        title="Amount (₹)",
+        tickmode="array",
+        tickvals=tickvals,
+        ticktext=ticktext,
+        rangemode="tozero",
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
 def show_dashboard():
     st.title("📊 Dashboard")
     expenses, income, accounts = load_sheets()
+
+    with st.expander("Monthly Expense Insights", expanded=True):
+        show_monthly_expense_chart(expenses)
+
     summary = calculate_monthly_summary(expenses, income)
 
     cols = st.columns(3)
-    cols[0].metric("Income", f"₹{summary['income']:,.2f}")
-    cols[1].metric("Expenses", f"₹{summary['expenses']:,.2f}")
+    cols[0].metric("Income", format_inr(summary["income"]))
+    cols[1].metric("Expenses", format_inr(summary["expenses"]))
     cols[2].metric(
         "Savings",
-        f"₹{summary['savings']:,.2f}",
+        format_inr(summary["savings"]),
         delta=f"{summary['savings_rate']:.1f}% of income",
     )
-    
+
     st.markdown("---")
     st.subheader("Quick Add")
     c1, c2 = st.columns(2)
