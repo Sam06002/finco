@@ -63,6 +63,15 @@ uploads/
 # Streamlit
 .streamlit/
 
+# Explicit secrets file
+.streamlit/secrets.toml
+
+# Google service account credentials
+google-credentials.json
+
+# Local backups
+backup/
+
 # Testing
 .pytest_cache/
 .coverage

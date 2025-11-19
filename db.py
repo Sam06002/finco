@@ -1,105 +1,91 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session, declarative_base, Session
-import os
-from dotenv import load_dotenv
+"""Google Sheets data layer for FinCo using streamlit-gsheets-connection."""
 
-# Load environment variables
-load_dotenv()
+from __future__ import annotations
 
-# Get database URL from environment variables
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///finco.db')
+from typing import Dict
 
-# Create SQLAlchemy engine
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
-    echo=False,
-    pool_pre_ping=True
+import pandas as pd
+import streamlit as st
+from gspread.exceptions import WorksheetNotFound
+from streamlit_gsheets import GSheetsConnection
+
+_CONFIG = (
+    st.secrets.get("gsheets")
+    or st.secrets.get("connections", {}).get("gsheets")
+    or {}
 )
+EXPENSES_WORKSHEET = _CONFIG.get("expenses_worksheet", "Expenses")
+INCOME_WORKSHEET = _CONFIG.get("income_worksheet", "Income")
+ACCOUNTS_WORKSHEET = _CONFIG.get("accounts_worksheet", "Accounts")
 
-# Create declarative base
-Base = declarative_base()
 
-# Create session factory
-SessionLocal = scoped_session(
-    sessionmaker(autocommit=False, autoflush=False, bind=engine)
-)
+def _get_spreadsheet_identifier() -> str:
+    for key in ("spreadsheet", "spreadsheet_url"):
+        value = _CONFIG.get(key)
+        if value:
+            return value
+    raise RuntimeError(
+        "Missing Google Sheets configuration. "
+        "Please set 'spreadsheet' (or 'spreadsheet_url') inside [gsheets] secrets."
+    )
 
-def get_db():
-    """Dependency to get DB session"""
-    db = SessionLocal()
+
+def get_connection() -> GSheetsConnection:
+    """Return a cached Google Sheets connection."""
+    return st.connection("gsheets", type=GSheetsConnection)
+
+
+def _read_sheet(worksheet: str, *, required: bool = True) -> pd.DataFrame:
     try:
-        yield db
-    finally:
-        db.close()
+        df = get_connection().read(
+            spreadsheet=_get_spreadsheet_identifier(),
+            worksheet=worksheet,
+        )
+    except WorksheetNotFound as exc:
+        if not required:
+            return pd.DataFrame()
+        raise RuntimeError(f"Worksheet '{worksheet}' not found.") from exc
+    except Exception as exc:  # pragma: no cover - Streamlit helper raises runtime errors
+        raise RuntimeError(f"Unable to read '{worksheet}' worksheet: {exc}") from exc
 
-def init_db():
-    """Initialize the database with default data"""
-    # Import models here to avoid circular imports
-    from models import User, Category, CategoryType
-    
-    # Create all tables
-    Base.metadata.create_all(bind=engine)
-    
-    # Create default categories if they don't exist
-    db = SessionLocal()
+    if df is None:
+        return pd.DataFrame()
+    return df.fillna("")
+
+
+def _write_sheet(worksheet: str, data: pd.DataFrame) -> None:
     try:
-        if not db.query(Category).first():
-            # Create default user
-            default_user = User(
-                username="default",
-                email="user@example.com",
-                hashed_password=""
-            )
-            db.add(default_user)
-            db.flush()
-            
-            # Add default categories
-            default_categories = [
-                "Food & Dining", "Shopping", "Transportation", "Housing",
-                "Utilities", "Entertainment", "Health", "Other"
-            ]
-            
-            for cat_name in default_categories:
-                db.add(Category(
-                    user_id=default_user.user_id,
-                    name=cat_name,
-                    type=CategoryType.EXPENSE
-                ))
-            
-            db.commit()
-    except Exception as e:
-        db.rollback()
-        raise e
-    finally:
-        db.close()
+        get_connection().update(
+            spreadsheet=_get_spreadsheet_identifier(),
+            worksheet=worksheet,
+            data=data,
+        )
+    except Exception as exc:  # pragma: no cover
+        raise RuntimeError(f"Unable to write to '{worksheet}' worksheet: {exc}") from exc
 
-# Alias for backward compatibility
-get_db_session = get_db
 
-class DatabaseSession:
-    """
-    Context manager for database sessions.
-    Automatically handles commit, rollback, and close.
-    
-    Usage:
-        with DatabaseSession() as db:
-            user = User(username="john", email="john@example.com")
-            db.add(user)
-            # Automatically commits on successful exit
-    """
-    def __init__(self):
-        self.db = SessionLocal()
-    
-    def __enter__(self) -> Session:
-        return self.db
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is not None:
-            # If an exception occurred, rollback the transaction
-            self.db.rollback()
-        else:
-            # Otherwise, commit the transaction
-            self.db.commit()
-        self.db.close()
-        return False
+def _append_row(worksheet: str, row: Dict) -> pd.DataFrame:
+    df = _read_sheet(worksheet)
+    updated = pd.concat([df, pd.DataFrame([row])], ignore_index=True) if not df.empty else pd.DataFrame([row])
+    _write_sheet(worksheet, updated)
+    return updated
+
+
+def get_expenses_df() -> pd.DataFrame:
+    return _read_sheet(EXPENSES_WORKSHEET)
+
+
+def get_income_df() -> pd.DataFrame:
+    return _read_sheet(INCOME_WORKSHEET)
+
+
+def get_accounts_df() -> pd.DataFrame:
+    return _read_sheet(ACCOUNTS_WORKSHEET, required=False)
+
+
+def add_expense_row(data: Dict) -> pd.DataFrame:
+    return _append_row(EXPENSES_WORKSHEET, data)
+
+
+def add_income_row(data: Dict) -> pd.DataFrame:
+    return _append_row(INCOME_WORKSHEET, data)

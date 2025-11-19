@@ -1,29 +1,3 @@
-# Core Dependencies
-streamlit>=1.32.0
-pandas>=2.1.0
-SQLAlchemy>=2.0.0
-python-dotenv>=1.0.0
-
-# Database
-sqlalchemy-utils>=0.41.0
-alembic>=1.13.0
-
-# Date/Time
-python-dateutil>=2.8.0
-pytz>=2023.0
-
-# Google Sheets Integration
-google-auth>=2.23.0
-google-auth-oauthlib>=1.1.0
-google-auth-httplib2>=0.1.1
-google-api-python-client>=2.100.0
-gspread>=5.12.0
-
-# Development
-typing-extensions>=4.0.0
-#
-# 2. Install all dependencies:
-#    pip install -r requirements.txt
-#
-# 3. Verify installation:
-#    pip list
+streamlit>=1.29.0
+pandas>=2.0.0
+st-gsheets-connection>=0.1.0

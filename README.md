@@ -1,6 +1,6 @@
-# FinCo - Personal Finance Tracker
+# FinCo - Personal Finance Tracker (Google Sheets Edition)
 
-FinCo is a modern, web-based personal finance application built with Streamlit and SQLAlchemy. It helps you track your income, expenses, and budgets in one place.
+FinCo is a modern, Streamlit-based personal finance application that stores data in Google Sheets. Track income, expenses, and accounts with a simple, fast UI.
 
 **🇮🇳 Localized for Indian Users**
 - Currency in Indian Rupees (₹)
@@ -46,6 +46,36 @@ FinCo is a modern, web-based personal finance application built with Streamlit a
    pip install -r requirements.txt
    ```
 
+4. Configure Google Sheets (required):
+   - Create a file at `.streamlit/secrets.toml` with your Google Sheets settings. This file is ignored by Git.
+   - Example `secrets.toml`:
+     ```toml
+     [gsheets]
+     # Use the full Google Sheets URL or spreadsheet ID
+     spreadsheet = "https://docs.google.com/spreadsheets/d/<your-id>"
+     expenses_worksheet = "Expenses"
+     income_worksheet   = "Income"
+     accounts_worksheet = "Accounts"
+
+     # Paste the service account JSON fields below (keys shown are examples):
+     type = "service_account"
+     project_id = "..."
+     private_key_id = "..."
+     private_key = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+     client_email = "...@...gserviceaccount.com"
+     client_id = "..."
+     token_uri = "https://oauth2.googleapis.com/token"
+     ```
+   - Alternatively, you can use the `[connections.gsheets]` block supported by Streamlit. The app reads either `[gsheets]` or `[connections.gsheets]` (see `db.py`).
+   - Share the target Google Sheet with the service account email (Editor access).
+
+5. Keep credentials out of Git:
+   - `.streamlit/secrets.toml` and `google-credentials.json` are ignored via `.gitignore`.
+   - If you ever accidentally staged `google-credentials.json`, remove it from Git with:
+     ```bash
+     git rm --cached google-credentials.json
+     ```
+
 4. Set up environment variables:
    - The `.env` file is already configured with default values
    - Update the `DATABASE_URL` in `.env` if you want to use a different database location
@@ -69,6 +99,23 @@ FinCo is a modern, web-based personal finance application built with Streamlit a
    ```
 
 2. Open your web browser and navigate to `http://localhost:8501`
+
+## Commit and Push Safely
+
+Before committing, verify that sensitive files are ignored:
+
+```bash
+git status
+git ls-files -- google-credentials.json  # should output nothing
+```
+
+Commit your changes:
+
+```bash
+git add .
+git commit -m "feat: Google Sheets setup and docs"
+git push origin main
+```
 
 ## Database Management
 
