@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 from gspread.exceptions import WorksheetNotFound
 from streamlit_gsheets import GSheetsConnection
+from streamlit_gsheets.gsheets_connection import GSheetsServiceAccountClient
 
 _CONFIG = (
     st.secrets.get("gsheets")
@@ -20,6 +21,10 @@ ACCOUNTS_WORKSHEET = _CONFIG.get("accounts_worksheet", "Accounts")
 
 
 def _get_spreadsheet_identifier() -> str:
+    # Check session state first for user overrides
+    if "spreadsheet_url" in st.session_state:
+        return st.session_state["spreadsheet_url"]
+
     for key in ("spreadsheet", "spreadsheet_url"):
         value = _CONFIG.get(key)
         if value:
@@ -30,8 +35,23 @@ def _get_spreadsheet_identifier() -> str:
     )
 
 
+class CustomGSheetsConnection(GSheetsConnection):
+    """Custom connection to allow dynamic credential passing."""
+    
+    def _connect(self, **kwargs):
+        if "service_account_info" in kwargs:
+            return GSheetsServiceAccountClient(kwargs["service_account_info"])
+        return super()._connect()
+
+
 def get_connection() -> GSheetsConnection:
-    """Return a cached Google Sheets connection."""
+    """Return a Google Sheets connection, using user credentials if available."""
+    if "google_credentials" in st.session_state:
+        return st.connection(
+            "gsheets_user",
+            type=CustomGSheetsConnection,
+            service_account_info=st.session_state["google_credentials"],
+        )
     return st.connection("gsheets", type=GSheetsConnection)
 
 

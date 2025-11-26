@@ -10,7 +10,9 @@ from typing import Tuple
 import numpy as np
 import pandas as pd
 import plotly.express as px
+import json
 import streamlit as st
+
 
 from db import (
     add_expense_row,
@@ -456,6 +458,29 @@ income_worksheet = "Income"
 """,
         language="toml",
     )
+
+    st.markdown("---")
+    st.subheader("Or Upload Credentials")
+    st.caption("If you don't have access to secrets (e.g. on Streamlit Cloud), upload your `google-credentials.json` here.")
+
+    uploaded_file = st.file_uploader("Upload google-credentials.json", type="json")
+    if uploaded_file is not None:
+        try:
+            creds = json.load(uploaded_file)
+            st.session_state["google_credentials"] = creds
+            st.success("Credentials loaded! ✅")
+        except Exception as e:
+            st.error(f"Invalid JSON file: {e}")
+    
+    if "google_credentials" in st.session_state:
+        st.info("Using uploaded credentials.")
+        
+        current_url = st.session_state.get("spreadsheet_url", "")
+        new_url = st.text_input("Spreadsheet URL", value=current_url, placeholder="https://docs.google.com/spreadsheets/d/...")
+        if new_url:
+            st.session_state["spreadsheet_url"] = new_url
+            st.success("Spreadsheet URL saved!")
+
 
 
 # -----------------------------------------------------------------------------
