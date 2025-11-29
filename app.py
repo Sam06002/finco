@@ -125,15 +125,28 @@ st.markdown("""
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    /* Clean, minimal form styling */
+    /* Theme-aware form styling - works in both light and dark mode */
     .stForm {
-        background: #ffffff;
         padding: 1.5rem;
         border-radius: 8px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        background: transparent;
     }
     
-    /* Better metric cards */
+    /* Better metric cards - theme aware */
+    .stMetric {
+        padding: 1rem;
+        border-radius: 8px;
+        background: rgba(128, 128, 128, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .stMetric {
+            margin-bottom: 0.5rem;
+        }
+    }
+    
+    /* Metric value styling */
     [data-testid="stMetricValue"] {
         font-size: 1.75rem;
         font-weight: 600;
@@ -141,7 +154,6 @@ st.markdown("""
     
     /* Cleaner headers */
     h1, h2, h3 {
-        color: #1f1f1f;
         font-weight: 600;
     }
     
@@ -150,6 +162,11 @@ st.markdown("""
         #MainMenu, footer, header {
             visibility: hidden;
         }
+    }
+    
+    /* Improve input field visibility in dark mode */
+    [data-baseweb="input"] {
+        background-color: transparent !important;
     }
 </style>
 """, unsafe_allow_html=True)
