@@ -33,11 +33,126 @@ st.set_page_config(
     page_title="FinCo - Personal Finance",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",  # Auto-collapse on mobile
 )
 
 if "page" not in st.session_state:
     st.session_state.page = "dashboard"
+
+# Mobile-friendly CSS
+st.markdown("""
+<style>
+    /* Mobile-optimized styles */
+    @media (max-width: 768px) {
+        /* Reduce padding on mobile */
+        .block-container {
+            padding: 1rem 1rem !important;
+            max-width: 100% !important;
+        }
+        
+        /* Larger touch targets for buttons */
+        .stButton button {
+            min-height: 44px !important;
+            font-size: 16px !important;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        /* Better form input sizing */
+        .stTextInput input, .stNumberInput input, .stDateInput input {
+            min-height: 44px !important;
+            font-size: 16px !important;
+        }
+        
+        /* Improve data editor on mobile */
+        .stDataFrame {
+            font-size: 14px !important;
+        }
+        
+        /* Stack columns on mobile */
+        .row-widget.stHorizontal {
+            flex-direction: column !important;
+        }
+        
+        /* Better metrics display */
+        .stMetric {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Improve sidebar on mobile */
+        .css-1d391kg {
+            padding: 1rem 0.5rem !important;
+        }
+        
+        /* Better tab spacing */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            padding: 0.75rem 1rem !important;
+            font-size: 16px !important;
+        }
+        
+        /* Make expanders more touch-friendly */
+        .streamlit-expanderHeader {
+            font-size: 16px !important;
+            padding: 0.75rem !important;
+        }
+        
+        /* Better table scrolling on mobile */
+        .dataframe {
+            font-size: 13px !important;
+        }
+        
+        /* Improve chart visibility */
+        .js-plotly-plot {
+            margin: 0 -1rem !important;
+        }
+    }
+    
+    /* General improvements for all screen sizes */
+    .stButton button {
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .stButton button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Clean, minimal form styling */
+    .stForm {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+    
+    /* Better metric cards */
+    [data-testid="stMetricValue"] {
+        font-size: 1.75rem;
+        font-weight: 600;
+    }
+    
+    /* Cleaner headers */
+    h1, h2, h3 {
+        color: #1f1f1f;
+        font-weight: 600;
+    }
+    
+    /* Hide Streamlit branding on mobile for cleaner look */
+    @media (max-width: 768px) {
+        #MainMenu, footer, header {
+            visibility: hidden;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
@@ -178,13 +293,10 @@ def render_sidebar() -> None:
 
 def expense_form(default_date: datetime | None = None, form_key: str = "expense_form"):
     with st.form(form_key):
-        cols = st.columns(2)
-        with cols[0]:
-            description = st.text_input("Description", placeholder="Groceries at BigBasket")
-            category = st.text_input("Category", placeholder="Food & Dining")
-        with cols[1]:
-            amount = st.number_input("Amount (₹)", min_value=0.01, step=0.01, format="%.2f")
-            account = st.text_input("Account", placeholder="HDFC Savings")
+        description = st.text_input("Description", placeholder="Groceries at BigBasket")
+        category = st.text_input("Category", placeholder="Food & Dining")
+        amount = st.number_input("Amount (₹)", min_value=0.01, step=0.01, format="%.2f")
+        account = st.text_input("Account", placeholder="HDFC Savings")
         txn_date = st.date_input("Date", value=default_date or datetime.now())
         submitted = st.form_submit_button(
             "Add Expense",
@@ -208,14 +320,12 @@ def expense_form(default_date: datetime | None = None, form_key: str = "expense_
 
 def income_form(default_date: datetime | None = None, form_key: str = "income_form"):
     with st.form(form_key):
-        cols = st.columns(2)
-        with cols[0]:
-            description = st.text_input("Income Source", placeholder="Salary")
-            category = st.text_input("Category", value="Income")
-        with cols[1]:
-            amount = st.number_input("Amount (₹)", min_value=0.01, step=0.01, format="%.2f")
-            account = st.text_input("Account", placeholder="SBI Salary")
-        txn_date = st.date_input("Date ", value=default_date or datetime.now())
+        description = st.text_input("Income Source", placeholder="Salary")
+        category = st.text_input("Category", value="Income")
+        amount = st.number_input("Amount (₹)", min_value=0.01, step=0.01, format="%.2f")
+        account = st.text_input("Account", placeholder="SBI Salary")
+        txn_date = st.date_input("Date", value=default_date or datetime.now())
+        
         submitted = st.form_submit_button(
             "Add Income",
             type="primary",
