@@ -163,6 +163,12 @@ def render_sidebar() -> None:
             st.rerun()
     
     st.sidebar.markdown("---")
+    
+    # Refresh button
+    if st.sidebar.button("🔄 Refresh Data", use_container_width=True, help="Clear cache and reload data from Google Sheets"):
+        refresh_cache()
+        st.rerun()
+    
     st.sidebar.caption(f"FinCo Sheets • {datetime.now().year}")
 
 
