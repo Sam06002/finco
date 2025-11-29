@@ -459,7 +459,7 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
     # Store original indices for tracking
     original_indices = df_display.index.tolist()
     
-    st.markdown("Edit transactions by clicking on any cell. Click **Save Changes** when done.")
+    st.markdown("Edit transactions by clicking on any cell. Changes save automatically.")
     
     # Use data_editor for inline editing
     edited_df = st.data_editor(
@@ -497,39 +497,37 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
         key=f"transaction_editor_{'expense' if is_expense else 'income'}"
     )
     
-    # Save button to batch update (prevents rate limit)
+    # Auto-save: Detect changes and update instantly
     if not edited_df.equals(df_edit):
-        if st.button("Save Changes", type="primary", use_container_width=False):
-            changes_made = 0
-            errors = []
-            
-            # Find and update all changed rows
-            for idx in range(len(edited_df)):
-                if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
-                    original_idx = original_indices[idx]
-                    updated_data = edited_df.iloc[idx].to_dict()
+        # Find the first changed row and update it
+        for idx in range(len(edited_df)):
+            if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
+                original_idx = original_indices[idx]
+                updated_data = edited_df.iloc[idx].to_dict()
+                
+                # Convert date to string format
+                if "Date" in updated_data and pd.notna(updated_data["Date"]):
+                    updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
+                
+                # Update in Google Sheets
+                try:
+                    if is_expense:
+                        update_expense_row(original_idx, updated_data)
+                    else:
+                        update_income_row(original_idx, updated_data)
                     
-                    # Convert date to string format
-                    if "Date" in updated_data and pd.notna(updated_data["Date"]):
-                        updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
-                    
-                    # Update in Google Sheets
-                    try:
-                        if is_expense:
-                            update_expense_row(original_idx, updated_data)
-                        else:
-                            update_income_row(original_idx, updated_data)
-                        changes_made += 1
-                    except Exception as e:
-                        errors.append(f"{updated_data.get('Description', 'N/A')}: {str(e)}")
-            
-            if changes_made > 0:
-                st.success(f"Successfully updated {changes_made} transaction(s)")
-                refresh_cache()
-                st.rerun()
-            
-            if errors:
-                st.error(f"Failed to update {len(errors)} transaction(s): {'; '.join(errors)}")
+                    st.success(f"Updated: {updated_data.get('Description', 'N/A')}")
+                    refresh_cache()
+                    st.rerun()
+                except Exception as e:
+                    error_msg = str(e)
+                    # Check if it's a rate limit error
+                    if "429" in error_msg or "RATE_LIMIT_EXCEEDED" in error_msg:
+                        st.warning("⚠️ Editing too quickly. Please wait a moment and try again.")
+                    else:
+                        st.error(f"Failed to update: {e}")
+                # Only process one change at a time to prevent multiple reruns
+                break
     
     # Delete functionality
     st.markdown("---")
