@@ -157,11 +157,15 @@ st.markdown("""
         font-weight: 600;
     }
     
-    /* Hide Streamlit branding on mobile for cleaner look */
-    @media (max-width: 768px) {
-        #MainMenu, footer, header {
-            visibility: hidden;
-        }
+    /* Hide unnecessary Streamlit elements but preserve sidebar toggle */
+    footer {
+        visibility: hidden;
+    }
+    
+    /* Show the sidebar toggle button on mobile */
+    [data-testid="collapsedControl"] {
+        visibility: visible !important;
+        display: block !important;
     }
     
     /* Improve input field visibility in dark mode */
