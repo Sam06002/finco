@@ -201,6 +201,8 @@ def load_sheets() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 def refresh_cache() -> None:
     """Clear cached sheet data after any write."""
     _load_sheets_cached.clear()
+    # Also clear all Streamlit cache to ensure immediate update
+    st.cache_data.clear()
 
 
 def calculate_monthly_summary(
