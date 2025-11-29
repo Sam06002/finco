@@ -30,8 +30,8 @@ from db import (
 # Page config & session
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="FinCo - Google Sheets",
-    page_icon="💰",
+    page_title="FinCo - Personal Finance",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -143,22 +143,22 @@ def render_sidebar() -> None:
     if logo_path.exists():
         st.sidebar.image(str(logo_path), use_container_width=True)
     else:
-        st.sidebar.title("💰 FinCo")
-        st.sidebar.caption("Google Sheets Edition")
+        st.sidebar.title("FinCo")
+        st.sidebar.caption("Personal Finance Tracker")
     
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Navigation")
     
     menu_items = [
-        ("Dashboard", "dashboard", "📊"),
-        ("Transactions", "transactions", "💳"),
-        ("Settings", "settings", "⚙️"),
+        ("Dashboard", "dashboard"),
+        ("Transactions", "transactions"),
+        ("Settings", "settings"),
     ]
 
-    for label, key, emoji in menu_items:
+    for label, key in menu_items:
         active = st.session_state.page == key
         if st.sidebar.button(
-            f"{emoji} {label}",
+            label,
             key=f"nav_{key}",
             type="primary" if active else "secondary",
             use_container_width=True,
@@ -169,11 +169,11 @@ def render_sidebar() -> None:
     st.sidebar.markdown("---")
     
     # Refresh button
-    if st.sidebar.button("🔄 Refresh Data", use_container_width=True, help="Clear cache and reload data from Google Sheets"):
+    if st.sidebar.button("Refresh Data", use_container_width=True, help="Clear cache and reload data from Google Sheets"):
         refresh_cache()
         st.rerun()
     
-    st.sidebar.caption(f"FinCo Sheets • {datetime.now().year}")
+    st.sidebar.caption(f"© {datetime.now().year} FinCo")
 
 
 def expense_form(default_date: datetime | None = None, form_key: str = "expense_form"):
@@ -202,7 +202,7 @@ def expense_form(default_date: datetime | None = None, form_key: str = "expense_
                 txn_date=datetime.combine(txn_date, datetime.min.time()),
             )
             if success:
-                st.success("Expense saved to Google Sheets ✅")
+                st.success("Expense saved successfully")
                 st.rerun()
 
 
@@ -232,7 +232,7 @@ def income_form(default_date: datetime | None = None, form_key: str = "income_fo
                 txn_date=datetime.combine(txn_date, datetime.min.time()),
             )
             if success:
-                st.success("Income saved to Google Sheets ✅")
+                st.success("Income saved successfully")
                 st.rerun()
 
 
@@ -360,7 +360,7 @@ def show_monthly_expense_chart(expenses: pd.DataFrame) -> None:
 
 
 def show_dashboard():
-    st.title("📊 Dashboard")
+    st.title("Dashboard")
     expenses, income, accounts = load_sheets()
 
     with st.expander("Monthly Expense Insights", expanded=True):
@@ -381,10 +381,10 @@ def show_dashboard():
     st.subheader("Quick Add")
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("#### ➖ Expense")
+        st.markdown("#### Add Expense")
         expense_form(form_key="dashboard_expense_form")
     with c2:
-        st.markdown("#### ➕ Income")
+        st.markdown("#### Add Income")
         income_form(form_key="dashboard_income_form")
 
     st.markdown("---")
@@ -416,7 +416,7 @@ def show_dashboard():
 
 
 def show_transactions():
-    st.title("💳 Transactions")
+    st.title("Transactions")
     expenses, income, _ = load_sheets()
 
     tab1, tab2 = st.tabs(["Expenses", "Income"])
@@ -459,7 +459,7 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
     # Store original indices for tracking
     original_indices = df_display.index.tolist()
     
-    st.markdown("**Edit transactions** by clicking on any cell:")
+    st.markdown("Edit transactions by clicking on any cell. Click **Save Changes** when done.")
     
     # Use data_editor for inline editing
     edited_df = st.data_editor(
@@ -497,37 +497,46 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
         key=f"transaction_editor_{'expense' if is_expense else 'income'}"
     )
     
-    # Detect changes and update
+    # Save button to batch update (prevents rate limit)
     if not edited_df.equals(df_edit):
-        # Find changed rows
-        for idx in range(len(edited_df)):
-            if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
-                original_idx = original_indices[idx]
-                updated_data = edited_df.iloc[idx].to_dict()
-                
-                # Convert date to string format
-                if "Date" in updated_data and pd.notna(updated_data["Date"]):
-                    updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
-                
-                # Update in Google Sheets
-                try:
-                    if is_expense:
-                        update_expense_row(original_idx, updated_data)
-                    else:
-                        update_income_row(original_idx, updated_data)
+        if st.button("Save Changes", type="primary", use_container_width=False):
+            changes_made = 0
+            errors = []
+            
+            # Find and update all changed rows
+            for idx in range(len(edited_df)):
+                if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
+                    original_idx = original_indices[idx]
+                    updated_data = edited_df.iloc[idx].to_dict()
                     
-                    st.success(f"✅ Updated transaction: {updated_data.get('Description', 'N/A')}")
-                    refresh_cache()
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"❌ Failed to update: {e}")
+                    # Convert date to string format
+                    if "Date" in updated_data and pd.notna(updated_data["Date"]):
+                        updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
+                    
+                    # Update in Google Sheets
+                    try:
+                        if is_expense:
+                            update_expense_row(original_idx, updated_data)
+                        else:
+                            update_income_row(original_idx, updated_data)
+                        changes_made += 1
+                    except Exception as e:
+                        errors.append(f"{updated_data.get('Description', 'N/A')}: {str(e)}")
+            
+            if changes_made > 0:
+                st.success(f"Successfully updated {changes_made} transaction(s)")
+                refresh_cache()
+                st.rerun()
+            
+            if errors:
+                st.error(f"Failed to update {len(errors)} transaction(s): {'; '.join(errors)}")
     
     # Delete functionality
     st.markdown("---")
-    st.markdown("**Delete transactions:**")
+    st.markdown("**Delete Transactions**")
     
-    with st.expander("🗑️ Delete a transaction", expanded=False):
-        st.warning("⚠️ This action cannot be undone!")
+    with st.expander("Delete a transaction", expanded=False):
+        st.warning("This action cannot be undone.")
         
         # Create selection dropdown with transaction descriptions
         delete_options = [
@@ -545,7 +554,7 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
             
             col1, col2 = st.columns([1, 3])
             with col1:
-                if st.button("🗑️ Delete", type="primary", use_container_width=True):
+                if st.button("Delete", type="primary", use_container_width=True):
                     original_idx = original_indices[selected]
                     try:
                         if is_expense:
@@ -553,11 +562,11 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
                         else:
                             delete_income_row(original_idx)
                         
-                        st.success("✅ Transaction deleted successfully!")
+                        st.success("Transaction deleted successfully")
                         refresh_cache()
                         st.rerun()
                     except Exception as e:
-                        st.error(f"❌ Failed to delete: {e}")
+                        st.error(f"Failed to delete: {e}")
 
 
 def display_transactions(df: pd.DataFrame):
@@ -578,7 +587,7 @@ def display_transactions(df: pd.DataFrame):
 
 
 def show_settings():
-    st.title("⚙️ Settings")
+    st.title("Settings")
     st.info(
         "Update `.streamlit/secrets.toml` with your Google Sheets credentials and worksheet names."
     )
@@ -601,7 +610,7 @@ income_worksheet = "Income"
         try:
             creds = json.load(uploaded_file)
             st.session_state["google_credentials"] = creds
-            st.success("Credentials loaded! ✅")
+            st.success("Credentials loaded successfully")
         except Exception as e:
             st.error(f"Invalid JSON file: {e}")
     
