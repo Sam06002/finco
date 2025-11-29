@@ -91,6 +91,31 @@ def _append_row(worksheet: str, row: Dict) -> pd.DataFrame:
     return updated
 
 
+def _update_row(worksheet: str, index: int, row: Dict) -> pd.DataFrame:
+    """Update a specific row in a worksheet by index."""
+    df = _read_sheet(worksheet)
+    if index < 0 or index >= len(df):
+        raise RuntimeError(f"Invalid row index: {index}")
+    
+    for key, value in row.items():
+        if key in df.columns:
+            df.at[index, key] = value
+    
+    _write_sheet(worksheet, df)
+    return df
+
+
+def _delete_row(worksheet: str, index: int) -> pd.DataFrame:
+    """Delete a specific row from a worksheet by index."""
+    df = _read_sheet(worksheet)
+    if index < 0 or index >= len(df):
+        raise RuntimeError(f"Invalid row index: {index}")
+    
+    df = df.drop(index).reset_index(drop=True)
+    _write_sheet(worksheet, df)
+    return df
+
+
 def get_expenses_df() -> pd.DataFrame:
     return _read_sheet(EXPENSES_WORKSHEET)
 
@@ -109,3 +134,24 @@ def add_expense_row(data: Dict) -> pd.DataFrame:
 
 def add_income_row(data: Dict) -> pd.DataFrame:
     return _append_row(INCOME_WORKSHEET, data)
+
+
+def update_expense_row(index: int, data: Dict) -> pd.DataFrame:
+    """Update an expense row by index."""
+    return _update_row(EXPENSES_WORKSHEET, index, data)
+
+
+def update_income_row(index: int, data: Dict) -> pd.DataFrame:
+    """Update an income row by index."""
+    return _update_row(INCOME_WORKSHEET, index, data)
+
+
+def delete_expense_row(index: int) -> pd.DataFrame:
+    """Delete an expense row by index."""
+    return _delete_row(EXPENSES_WORKSHEET, index)
+
+
+def delete_income_row(index: int) -> pd.DataFrame:
+    """Delete an income row by index."""
+    return _delete_row(INCOME_WORKSHEET, index)
+

@@ -20,6 +20,10 @@ from db import (
     get_accounts_df,
     get_expenses_df,
     get_income_df,
+    update_expense_row,
+    update_income_row,
+    delete_expense_row,
+    delete_income_row,
 )
 
 # -----------------------------------------------------------------------------
@@ -420,21 +424,144 @@ def show_transactions():
     with tab1:
         st.markdown("### Expenses")
         expense_form(form_key="transactions_expense_form")
+        st.markdown("---")
         if expenses.empty:
             st.info("No expenses recorded yet.")
         else:
-            display_transactions(expenses)
+            display_editable_transactions(expenses, is_expense=True)
 
     with tab2:
         st.markdown("### Income")
         income_form(form_key="transactions_income_form")
+        st.markdown("---")
         if income.empty:
             st.info("No income entries recorded yet.")
         else:
-            display_transactions(income)
+            display_editable_transactions(income, is_expense=False)
+
+
+def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
+    """Display transactions in an editable table with delete functionality."""
+    
+    # Prepare display dataframe
+    df_display = df.copy()
+    if "Date" in df_display:
+        df_display = df_display.sort_values(by="Date", ascending=False)
+    
+    # Select and order columns
+    display_columns = [
+        col
+        for col in ["Date", "Description", "Category", "Amount", "Account"]
+        if col in df_display.columns
+    ]
+    df_edit = df_display[display_columns].reset_index(drop=True)
+    
+    # Store original indices for tracking
+    original_indices = df_display.index.tolist()
+    
+    st.markdown("**Edit transactions** by clicking on any cell:")
+    
+    # Use data_editor for inline editing
+    edited_df = st.data_editor(
+        df_edit,
+        use_container_width=True,
+        hide_index=True,
+        num_rows="fixed",
+        column_config={
+            "Date": st.column_config.DateColumn(
+                "Date",
+                format="YYYY-MM-DD",
+                help="Transaction date"
+            ),
+            "Description": st.column_config.TextColumn(
+                "Description",
+                help="Transaction description",
+                max_chars=200
+            ),
+            "Category": st.column_config.TextColumn(
+                "Category",
+                help="Transaction category",
+                max_chars=100
+            ),
+            "Amount": st.column_config.NumberColumn(
+                "Amount",
+                help="Transaction amount",
+                format="₹%.2f"
+            ),
+            "Account": st.column_config.TextColumn(
+                "Account",
+                help="Account name",
+                max_chars=100
+            ),
+        },
+        key=f"transaction_editor_{'expense' if is_expense else 'income'}"
+    )
+    
+    # Detect changes and update
+    if not edited_df.equals(df_edit):
+        # Find changed rows
+        for idx in range(len(edited_df)):
+            if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
+                original_idx = original_indices[idx]
+                updated_data = edited_df.iloc[idx].to_dict()
+                
+                # Convert date to string format
+                if "Date" in updated_data and pd.notna(updated_data["Date"]):
+                    updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
+                
+                # Update in Google Sheets
+                try:
+                    if is_expense:
+                        update_expense_row(original_idx, updated_data)
+                    else:
+                        update_income_row(original_idx, updated_data)
+                    
+                    st.success(f"✅ Updated transaction: {updated_data.get('Description', 'N/A')}")
+                    refresh_cache()
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"❌ Failed to update: {e}")
+    
+    # Delete functionality
+    st.markdown("---")
+    st.markdown("**Delete transactions:**")
+    
+    with st.expander("🗑️ Delete a transaction", expanded=False):
+        st.warning("⚠️ This action cannot be undone!")
+        
+        # Create selection dropdown with transaction descriptions
+        delete_options = [
+            f"{idx}: {row.get('Date', 'N/A')} - {row.get('Description', 'N/A')} - {row.get('Amount', 'N/A')}"
+            for idx, row in enumerate(df_edit.to_dict('records'))
+        ]
+        
+        if delete_options:
+            selected = st.selectbox(
+                "Select transaction to delete:",
+                options=range(len(delete_options)),
+                format_func=lambda x: delete_options[x],
+                key=f"delete_selector_{'expense' if is_expense else 'income'}"
+            )
+            
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                if st.button("🗑️ Delete", type="primary", use_container_width=True):
+                    original_idx = original_indices[selected]
+                    try:
+                        if is_expense:
+                            delete_expense_row(original_idx)
+                        else:
+                            delete_income_row(original_idx)
+                        
+                        st.success("✅ Transaction deleted successfully!")
+                        refresh_cache()
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"❌ Failed to delete: {e}")
 
 
 def display_transactions(df: pd.DataFrame):
+    """Fallback display for non-editable views (used in dashboard)."""
     df_display = df.copy()
     if "Date" in df_display:
         df_display = df_display.sort_values(by="Date", ascending=False)
