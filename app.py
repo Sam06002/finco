@@ -36,6 +36,28 @@ st.set_page_config(
     initial_sidebar_state="auto",  # Auto-collapse on mobile
 )
 
+# PWA Support - Inject meta tags and service worker
+pwa_html = """
+<link rel="manifest" href="/app/static/manifest.json">
+<meta name="theme-color" content="#1f77b4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FinCo">
+<link rel="apple-touch-icon" href="/app/static/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/app/static/sw.js')
+      .then(reg => console.log('Service Worker registered'))
+      .catch(err => console.log('Service Worker registration failed:', err));
+  });
+}
+</script>
+"""
+st.markdown(pwa_html, unsafe_allow_html=True)
+
+
 if "page" not in st.session_state:
     st.session_state.page = "dashboard"
 
