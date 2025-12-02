@@ -38,17 +38,22 @@ st.set_page_config(
 
 # PWA Support - Inject meta tags and service worker
 pwa_html = """
-<link rel="manifest" href="/app/static/manifest.json">
+<link rel="manifest" href="./app/static/manifest.json">
+<meta name="application-name" content="FinCo">
 <meta name="theme-color" content="#1f77b4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FinCo">
-<link rel="apple-touch-icon" href="/app/static/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="./app/static/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./app/static/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./app/static/icons/icon-512.png">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileImage" content="./app/static/icons/icon-512.png">
+<meta name="msapplication-TileColor" content="#1f77b4">
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/app/static/sw.js')
+    navigator.serviceWorker.register('./app/static/sw.js')
       .then(reg => console.log('Service Worker registered'))
       .catch(err => console.log('Service Worker registration failed:', err));
   });

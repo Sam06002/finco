@@ -1,11 +1,11 @@
 // FinCo Service Worker
-const CACHE_NAME = 'finco-v1';
+const CACHE_NAME = 'finco-v2';
 const urlsToCache = [
-  '/',
-  '/app/static/manifest.json',
-  '/app/static/icons/icon-192.png',
-  '/app/static/icons/icon-512.png',
-  '/app/static/icons/apple-touch-icon.png'
+  './',
+  './app/static/manifest.json',
+  './app/static/icons/icon-192.png',
+  './app/static/icons/icon-512.png',
+  './app/static/icons/apple-touch-icon.png'
 ];
 
 // Install event - cache essential resources
