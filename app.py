@@ -402,24 +402,39 @@ def income_form(default_date: datetime | None = None, form_key: str = "income_fo
 def format_inr(amount: float) -> str:
     if pd.isna(amount):
         return "₹0.00"
+    
+    # Handle zero values simply
+    if amount == 0 or abs(amount) < 0.01:
+        return "₹0.00"
 
     sign = "-" if amount < 0 else ""
     amount = abs(float(amount))
     integer_part = int(amount)
     fraction_part = amount - integer_part
 
-    last_three = str(integer_part % 1000)
-    remaining = integer_part // 1000
-    parts = []
-
-    while remaining > 0:
-        parts.append(f"{remaining % 100:02d}")
-        remaining //= 100
-
-    if parts:
-        formatted_int = f"{','.join(reversed(parts))},{int(last_three):03d}"
+    # Indian numbering system: groups of 2 digits after first 3
+    if integer_part < 1000:
+        # Less than 1,000 - no commas needed
+        formatted_int = str(integer_part)
     else:
-        formatted_int = last_three
+        # Separate last 3 digits
+        last_three = integer_part % 1000
+        remaining = integer_part // 1000
+        
+        # Build groups of 2 from right to left
+        parts = []
+        while remaining > 0:
+            parts.append(f"{remaining % 100:02d}" if len(parts) > 0 or remaining >= 100 else str(remaining % 100))
+            remaining //= 100
+        
+        # Format: most significant part (no leading zeros) + other parts (with leading zeros) + last 3 digits
+        if parts:
+            # Remove leading zeros from the most significant part
+            parts_reversed = list(reversed(parts))
+            parts_reversed[0] = str(int(parts_reversed[0]))  # Remove leading zeros from first part
+            formatted_int = f"{','.join(parts_reversed)},{last_three:03d}"
+        else:
+            formatted_int = f"{last_three:03d}"
 
     formatted_fraction = f"{fraction_part:.2f}"[1:]
     return f"{sign}₹{formatted_int}{formatted_fraction}"
