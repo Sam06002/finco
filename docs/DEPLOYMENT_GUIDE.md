@@ -46,42 +46,17 @@ accounts_worksheet = "Accounts"
 
 # Google Service Account Credentials
 type = "service_account"
-project_id = "finco-478512"
-private_key_id = "7124f8f7a3f48781437d3e6ec6a7e26bc01e85ec"
+project_id = "your-project-id"
+private_key_id = "your-private-key-id"
 private_key = """-----BEGIN PRIVATE KEY-----
-MIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQC98F1ZvwXycgr6
-p0/YXaCj/XDJz+kalvR0ghF/OHFwHLLw89BquPpQh2lKG9L4SGkcTFFCgDxwCjyW
-BU2EoQ4eq3B+b5ZiLcxvzxL1A77DTnPG2xYR77IhNjQIQoBNDWfighIjlz8UZAwD
-9IGTmBfWGjD8FSRFCfeRNydJsux4zm+J340UAK+H69xOioSn14k0zYTOW7ziSNvv
-kpAS5+bl3ZwDkUBQily8511wISF5L/vz27FhmJNkUhzkcYxpeaW+bGVfo3OdN77X
-uBTnoff8svOajx90umwsnfm/JRRV+iLBOp1jdQnUxc4vBPSdg8XNuQSvcjs1zvq2
-W0/1eXRVAgMBAAECggEAEmAht+AE2ZrHjc5dVCe4CzAmwZotXsGB7uTyf7tchiXQ
-o1et2dVW1Nmfib2StdXTjXBOCuqlw4p0qBLlQqfjhNC94Q2Mn/z29/jcSFCkxk0I
-YxGpBfKJlNr4l7VPUk+yCuDd6Qw7Mbl9dsMokg3h0yMqNV5vlC+jAC00zirS49uc
-h6D8IqL9UnFN5W234QK3kiw6elympomhtLIWTSjm0P/XYeUET3GtgtOWuRagPpDN
-nhYutX8w5rREfujBLCKPk+6vq4Jh3U1V5btHJ5J5bWKu/lTiDjBgUEiPFN9NoRQF
-v3nfRRN8aqfqM30MJPOne88mBFdMIeRpnFroeuqDFQKBgQD8akFY39wVdrGfcr1r
-++nm4NaxRLt5ixIVolpmGLNMJfhASV5Yt0hWyGvIiWx9ttodY3ViOnVLbP2/Y0J9
-oelOwF9VI5zlsJ6/mzlw8abW7/Bal2t+1JExiibYlqRxbbhsVKLRgsiZ6yT+0jCi
-FcL+EwBJizErvDfaIE5HOh1hywKBgQDAovSGWDiTjJskFAi/MeZscYA6Wj7trmOD
-7EwjECKY+h59LuJRio+1ledWbMuL7eZQvVVONdNOZ1ckpcE3k+EasMKH+DfP3yTr
-kf3NzAElLIS5yKpm24YdanR2oZNrBjrlYBQBKcPIIR5wt6qTFCnZV3pNeRKDpMxL
-00ELrEk+XwJ/Qg+NCrWL5BIsao6dBKXpkYNGrR5P8n9zPDZBcncEdel6D1kkWBOf
-2xaZHuLYgg5ZB1gAYLTr/dGIl45i2H6HkRTH3oBzj6mp4nu9jNGx2I7zWMJIX+lC
-FrURdZ33a7hLjA6ajjqsRZxFEmvwTntjjRtr99N2Cvw3od7SndGX3wKBgQCoZgvS
-4Y5b1h/NU0IuOeYQSMxqtneqebd/HPOV90X3azd6AaFQ3QsyF2BLWgI6Sfb7//dx
-znXxZT91xvz4o+q11W3JRUEtFAoHcPFplXwuzhMdAgGMtz0vu98h0a+4cJLN78at
-GaCP8/vTV4vi1U6cM++ziDKaKFd7tap4FN1WiwKBgGw/veBCn1o1jclWtG6k2uGx
-/oxWxTIJxdifmhYYb3yHN0tqM/gSG5iiuIc+Mx9hlnWKN29LSlAcQxddvPnh7TIq
-fI8QR/KNOILvgfk07m2FatkD1zj8RO2ESGtCnfvixQyrX0BDz7n1NhJ86xnh4WIH
-cHa/GiJq8SrQfwmxXShi
+...your private key content...
 -----END PRIVATE KEY-----"""
-client_email = "expense-tracker-sa@finco-478512.iam.gserviceaccount.com"
-client_id = "111974447906012094144"
+client_email = "your-service-account@your-project.iam.gserviceaccount.com"
+client_id = "your-client-id"
 auth_uri = "https://accounts.google.com/o/oauth2/auth"
 token_uri = "https://oauth2.googleapis.com/token"
 auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs"
-client_x509_cert_url = "https://www.googleapis.com/robot/v1/metadata/x509/expense-tracker-sa%40finco-478512.iam.gserviceaccount.com"
+client_x509_cert_url = "https://www.googleapis.com/robot/v1/metadata/x509/your-service-account"
 universe_domain = "googleapis.com"
 ```
 

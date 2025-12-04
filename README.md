@@ -3,6 +3,7 @@
 FinCo is a modern, Streamlit-based personal finance application that stores data in Google Sheets. Track income, expenses, and accounts with a simple, fast UI.
 
 **🇮🇳 Localized for Indian Users**
+
 - Currency in Indian Rupees (₹)
 - Indian number formatting (lakhs & crores)
 - DD/MM/YYYY date format
@@ -25,12 +26,14 @@ FinCo is a modern, Streamlit-based personal finance application that stores data
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd finco
    ```
 
 2. Create and activate a virtual environment (recommended):
+
    ```bash
    # On Windows
    python -m venv venv
@@ -42,13 +45,16 @@ FinCo is a modern, Streamlit-based personal finance application that stores data
    ```
 
 3. Install the required packages:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Configure Google Sheets (required):
+
    - Create a file at `.streamlit/secrets.toml` with your Google Sheets settings. This file is ignored by Git.
    - Example `secrets.toml`:
+
      ```toml
      [gsheets]
      # Use the full Google Sheets URL or spreadsheet ID
@@ -66,34 +72,40 @@ FinCo is a modern, Streamlit-based personal finance application that stores data
      client_id = "..."
      token_uri = "https://oauth2.googleapis.com/token"
      ```
+
    - Alternatively, you can use the `[connections.gsheets]` block supported by Streamlit. The app reads either `[gsheets]` or `[connections.gsheets]` (see `db.py`).
    - Share the target Google Sheet with the service account email (Editor access).
 
 5. Keep credentials out of Git:
+
    - `.streamlit/secrets.toml` and `google-credentials.json` are ignored via `.gitignore`.
    - If you ever accidentally staged `google-credentials.json`, remove it from Git with:
      ```bash
      git rm --cached google-credentials.json
      ```
 
-4. Set up environment variables:
+6. Set up environment variables:
+
    - The `.env` file is already configured with default values
    - Update the `DATABASE_URL` in `.env` if you want to use a different database location
    - For PostgreSQL: `DATABASE_URL=postgresql://username:password@localhost/finco`
    - For MySQL: `DATABASE_URL=mysql://username:password@localhost/finco`
 
-5. Initialize the database:
+7. Initialize the database:
+
    ```bash
    python init_database.py
    ```
-   
+
    This will:
+
    - Create all necessary database tables
    - Optionally populate the database with sample data for testing
 
 ## Running the Application
 
 1. Start the Streamlit app:
+
    ```bash
    streamlit run app.py
    ```
@@ -120,25 +132,29 @@ git push origin main
 ## Database Management
 
 ### Initialize Database
+
 ```bash
 python init_database.py
 ```
 
 ### Accessing the Database Session
+
 The application provides three ways to access database sessions:
 
 1. **Generator Pattern** (for FastAPI-style dependencies):
+
    ```python
    from db import get_db
-   
+
    for db in get_db():
        user = db.query(User).first()
    ```
 
 2. **Direct Session** (manual close required):
+
    ```python
    from db import get_db_session
-   
+
    db = get_db_session()
    try:
        user = db.query(User).first()
@@ -147,9 +163,10 @@ The application provides three ways to access database sessions:
    ```
 
 3. **Context Manager** (automatic commit/rollback):
+
    ```python
    from db import DatabaseSession
-   
+
    with DatabaseSession() as db:
        user = User(username="john", email="john@example.com")
        db.add(user)
@@ -167,9 +184,21 @@ finco/
 ├── init_database.py    # Database initialization script
 ├── requirements.txt    # Project dependencies
 ├── .env                # Environment variables
+├── docs/               # Documentation
+│   ├── APP_STRUCTURE.md
+│   ├── DEPLOYMENT_GUIDE.md
+│   ├── INDIA_LOCALIZATION.md
+│   └── PWA_GUIDE.md
 ├── README.md           # This file
 └── finco.db            # SQLite database (created after initialization)
 ```
+
+## Documentation
+
+- [Application Structure](docs/APP_STRUCTURE.md)
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
+- [India Localization Details](docs/INDIA_LOCALIZATION.md)
+- [PWA Setup Guide](docs/PWA_GUIDE.md)
 
 ## Database
 
