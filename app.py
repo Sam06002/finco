@@ -607,7 +607,7 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
             
             col1, col2 = st.columns([1, 3])
             with col1:
-                if st.button("Delete", type="primary", use_container_width=True):
+                if st.button("Delete", type="primary", use_container_width=True, key=f"delete_btn_{'expense' if is_expense else 'income'}"):
                     original_idx = original_indices[selected]
                     try:
                         if is_expense:
