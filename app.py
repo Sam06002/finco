@@ -129,7 +129,8 @@ def calculate_monthly_summary(
 
     total_income = income_month.get("Amount", pd.Series(dtype=float)).sum()
     total_expenses = expenses_month.get("Amount", pd.Series(dtype=float)).sum()
-    savings = total_income - total_expenses
+    # Expenses are stored as negative values, so we add them to income to get savings
+    savings = total_income + total_expenses
     savings_rate = (savings / total_income * 100) if total_income else 0
 
     return {
