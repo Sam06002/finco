@@ -67,140 +67,15 @@ if "page" not in st.session_state:
     st.session_state.page = "dashboard"
 
 # Mobile-friendly CSS
-st.markdown("""
-<style>
-    /* Mobile-optimized styles */
-    @media (max-width: 768px) {
-        /* Reduce padding on mobile */
-        .block-container {
-            padding: 1rem 1rem !important;
-            max-width: 100% !important;
-        }
-        
-        /* Larger touch targets for buttons */
-        .stButton button {
-            min-height: 44px !important;
-            font-size: 16px !important;
-            padding: 0.5rem 1rem !important;
-        }
-        
-        /* Better form input sizing */
-        .stTextInput input, .stNumberInput input, .stDateInput input {
-            min-height: 44px !important;
-            font-size: 16px !important;
-        }
-        
-        /* Improve data editor on mobile */
-        .stDataFrame {
-            font-size: 14px !important;
-        }
-        
-        /* Stack columns on mobile */
-        .row-widget.stHorizontal {
-            flex-direction: column !important;
-        }
-        
-        /* Better metrics display */
-        .stMetric {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Improve sidebar on mobile */
-        .css-1d391kg {
-            padding: 1rem 0.5rem !important;
-        }
-        
-        /* Better tab spacing */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.5rem;
-        }
-        
-        .stTabs [data-baseweb="tab"] {
-            padding: 0.75rem 1rem !important;
-            font-size: 16px !important;
-        }
-        
-        /* Make expanders more touch-friendly */
-        .streamlit-expanderHeader {
-            font-size: 16px !important;
-            padding: 0.75rem !important;
-        }
-        
-        /* Better table scrolling on mobile */
-        .dataframe {
-            font-size: 13px !important;
-        }
-        
-        /* Improve chart visibility */
-        .js-plotly-plot {
-            margin: 0 -1rem !important;
-        }
-    }
-    
-    /* General improvements for all screen sizes */
-    .stButton button {
-        border-radius: 6px;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-    
-    .stButton button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    /* Theme-aware form styling - works in both light and dark mode */
-    .stForm {
-        padding: 1.5rem;
-        border-radius: 8px;
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        background: transparent;
-    }
-    
-    /* Better metric cards - theme aware */
-    .stMetric {
-        padding: 1rem;
-        border-radius: 8px;
-        background: rgba(128, 128, 128, 0.1);
-    }
-    
-    @media (max-width: 768px) {
-        .stMetric {
-            margin-bottom: 0.5rem;
-        }
-    }
-    
-    /* Metric value styling */
-    [data-testid="stMetricValue"] {
-        font-size: 1.75rem;
-        font-weight: 600;
-    }
-    
-    /* Cleaner headers */
-    h1, h2, h3 {
-        font-weight: 600;
-    }
-    
-    /* Hide unnecessary Streamlit elements but preserve sidebar toggle */
-    footer {
-        visibility: hidden;
-    }
-    
-    /* Show the sidebar toggle button on mobile */
-    [data-testid="collapsedControl"] {
-        visibility: visible !important;
-        display: block !important;
-    }
-    
-    /* Improve input field visibility in dark mode */
-    [data-baseweb="input"] {
-        background-color: transparent !important;
-    }
-</style>
-""", unsafe_allow_html=True)
+def load_css():
+    """Load custom CSS from assets."""
+    css_path = Path("assets/css/style.css")
+    if css_path.exists():
+        with open(css_path) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Load custom styles
+load_css()
 
 
 # -----------------------------------------------------------------------------
@@ -487,6 +362,10 @@ def show_monthly_expense_chart(expenses: pd.DataFrame) -> None:
         st.warning("Category column is missing in the Expenses sheet.")
         return
 
+    # Normalize category names to prevent duplicates (e.g., "Food" vs "food" or "Food ")
+    filtered = filtered.copy()
+    filtered["Category"] = filtered["Category"].astype(str).str.strip().str.title()
+    
     grouped = (
         filtered.assign(Amount=filtered["Amount"].abs())
         .groupby("Category", as_index=False)["Amount"]
