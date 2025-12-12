@@ -512,7 +512,11 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
     # Store original indices for tracking
     original_indices = df_display.index.tolist()
     
-    st.markdown("Edit transactions by clicking on any cell. Changes save automatically.")
+    st.markdown("Edit transactions by clicking on any cell. Use the Save button after making changes.")
+    
+    # Create unique keys for this transaction type
+    editor_key = f"transaction_editor_{'expense' if is_expense else 'income'}"
+    save_key = f"save_changes_{'expense' if is_expense else 'income'}"
     
     # Use data_editor for inline editing
     edited_df = st.data_editor(
@@ -547,40 +551,59 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
                 max_chars=100
             ),
         },
-        key=f"transaction_editor_{'expense' if is_expense else 'income'}"
+        key=editor_key
     )
     
-    # Auto-save: Detect changes and update instantly
-    if not edited_df.equals(df_edit):
-        # Find the first changed row and update it
+    # Save button to apply changes (avoids auto-save infinite loop)
+    if st.button("💾 Save Changes", key=save_key, type="primary"):
+        changes_made = False
         for idx in range(len(edited_df)):
-            if idx < len(df_edit) and not edited_df.iloc[idx].equals(df_edit.iloc[idx]):
-                original_idx = original_indices[idx]
-                updated_data = edited_df.iloc[idx].to_dict()
+            if idx < len(df_edit):
+                # Compare each row manually to detect real changes
+                orig_row = df_edit.iloc[idx]
+                edit_row = edited_df.iloc[idx]
                 
-                # Convert date to string format
-                if "Date" in updated_data and pd.notna(updated_data["Date"]):
-                    updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
-                
-                # Update in Google Sheets
-                try:
-                    if is_expense:
-                        update_expense_row(original_idx, updated_data)
-                    else:
-                        update_income_row(original_idx, updated_data)
+                # Check if any value actually changed
+                row_changed = False
+                for col in display_columns:
+                    orig_val = orig_row.get(col)
+                    edit_val = edit_row.get(col)
                     
-                    st.success(f"Updated: {updated_data.get('Description', 'N/A')}")
-                    refresh_cache()
-                    st.rerun()
-                except Exception as e:
-                    error_msg = str(e)
-                    # Check if it's a rate limit error
-                    if "429" in error_msg or "RATE_LIMIT_EXCEEDED" in error_msg:
-                        st.warning("⚠️ Editing too quickly. Please wait a moment and try again.")
-                    else:
-                        st.error(f"Failed to update: {e}")
-                # Only process one change at a time to prevent multiple reruns
-                break
+                    # Normalize for comparison
+                    if pd.isna(orig_val) and pd.isna(edit_val):
+                        continue
+                    if str(orig_val) != str(edit_val):
+                        row_changed = True
+                        break
+                
+                if row_changed:
+                    original_idx = original_indices[idx]
+                    updated_data = edit_row.to_dict()
+                    
+                    # Convert date to string format
+                    if "Date" in updated_data and pd.notna(updated_data["Date"]):
+                        updated_data["Date"] = pd.to_datetime(updated_data["Date"]).strftime("%Y-%m-%d")
+                    
+                    # Update in Google Sheets
+                    try:
+                        if is_expense:
+                            update_expense_row(original_idx, updated_data)
+                        else:
+                            update_income_row(original_idx, updated_data)
+                        
+                        changes_made = True
+                    except Exception as e:
+                        error_msg = str(e)
+                        if "429" in error_msg or "RATE_LIMIT_EXCEEDED" in error_msg or "Rate limit" in error_msg:
+                            st.warning("⚠️ Rate limit reached. Please wait a moment and try again.")
+                        else:
+                            st.error(f"Failed to update: {e}")
+                        return
+        
+        if changes_made:
+            st.success("Changes saved successfully!")
+            refresh_cache()
+            st.rerun()
     
     # Delete functionality
     st.markdown("---")
