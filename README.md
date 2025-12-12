@@ -1,176 +1,78 @@
-# FinCo - Personal Finance Tracker (Google Sheets Edition)
+# FinCo - Personal Finance Tracker
 
-FinCo is a modern, Streamlit-based personal finance application that stores data in Google Sheets. Track income, expenses, and accounts with a simple, fast UI.
+A modern, Streamlit-based personal finance tracker that syncs with Google Sheets. Track income, expenses, and accounts with a sleek dark-mode UI.
 
 **🇮🇳 Localized for Indian Users**
 
-- Currency in Indian Rupees (₹)
-- Indian number formatting (lakhs & crores)
-- DD/MM/YYYY date format
+- Currency in Indian Rupees (₹) with lakh/crore formatting
 - Designed for Indian banking and financial practices
 
 ## Features
 
-- 💰 Track income and expenses
-- 🏦 Manage multiple accounts
-- 📊 View financial reports and analytics
-- 📅 Set and track budgets
-- 📱 Responsive web interface
-- 🔄 SQLite database for data persistence
+- 💰 **Track Income & Expenses** - Add, edit, and delete transactions
+- 📊 **Dashboard** - Visual charts showing monthly expense breakdown by category
+- 🏦 **Multiple Accounts** - Track across different bank accounts
+- 📱 **PWA Support** - Install as a mobile app
+- 🌙 **Dark Mode** - Carbon monochrome design
+- ☁️ **Google Sheets Sync** - Data stored in your own Google Sheet
 
-## Prerequisites
+## Live Demo
+
+Deployed on Streamlit Cloud: [fincoapp.streamlit.app](https://fincoapp.streamlit.app)
+
+## Quick Start
+
+### Prerequisites
 
 - Python 3.10+
-- pip (Python package manager)
+- A Google Cloud service account with Sheets API access
+- A Google Sheet shared with the service account
 
-## Installation
+### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Sam06002/finco.git
    cd finco
    ```
 
-2. Create and activate a virtual environment (recommended):
+2. **Create virtual environment:**
 
    ```bash
-   # On Windows
-   python -m venv venv
-   .\venv\Scripts\activate
-
-   # On macOS/Linux
    python3 -m venv venv
-   source venv/bin/activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. Install the required packages:
+3. **Install dependencies:**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Configure Google Sheets (required):
+4. **Configure Google Sheets:**
 
-   - Create a file at `.streamlit/secrets.toml` with your Google Sheets settings. This file is ignored by Git.
-   - Example `secrets.toml`:
+   Create `.streamlit/secrets.toml`:
 
-     ```toml
-     [gsheets]
-     # Use the full Google Sheets URL or spreadsheet ID
-     spreadsheet = "https://docs.google.com/spreadsheets/d/<your-id>"
-     expenses_worksheet = "Expenses"
-     income_worksheet   = "Income"
-     accounts_worksheet = "Accounts"
+   ```toml
+   [connections.gsheets]
+   spreadsheet = "https://docs.google.com/spreadsheets/d/<your-sheet-id>"
+   expenses_worksheet = "Expenses"
+   income_worksheet = "Income"
+   accounts_worksheet = "Accounts"
 
-     # Paste the service account JSON fields below (keys shown are examples):
-     type = "service_account"
-     project_id = "..."
-     private_key_id = "..."
-     private_key = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
-     client_email = "...@...gserviceaccount.com"
-     client_id = "..."
-     token_uri = "https://oauth2.googleapis.com/token"
-     ```
-
-   - Alternatively, you can use the `[connections.gsheets]` block supported by Streamlit. The app reads either `[gsheets]` or `[connections.gsheets]` (see `db.py`).
-   - Share the target Google Sheet with the service account email (Editor access).
-
-5. Keep credentials out of Git:
-
-   - `.streamlit/secrets.toml` and `google-credentials.json` are ignored via `.gitignore`.
-   - If you ever accidentally staged `google-credentials.json`, remove it from Git with:
-     ```bash
-     git rm --cached google-credentials.json
-     ```
-
-6. Set up environment variables:
-
-   - The `.env` file is already configured with default values
-   - Update the `DATABASE_URL` in `.env` if you want to use a different database location
-   - For PostgreSQL: `DATABASE_URL=postgresql://username:password@localhost/finco`
-   - For MySQL: `DATABASE_URL=mysql://username:password@localhost/finco`
-
-7. Initialize the database:
-
-   ```bash
-   python init_database.py
+   type = "service_account"
+   project_id = "your-project-id"
+   private_key_id = "your-key-id"
+   private_key = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+   client_email = "your-service-account@project.iam.gserviceaccount.com"
+   client_id = "123456789"
+   token_uri = "https://oauth2.googleapis.com/token"
    ```
 
-   This will:
-
-   - Create all necessary database tables
-   - Optionally populate the database with sample data for testing
-
-## Running the Application
-
-1. Start the Streamlit app:
-
+5. **Run the app:**
    ```bash
    streamlit run app.py
-   ```
-
-2. Open your web browser and navigate to `http://localhost:8501`
-
-## Commit and Push Safely
-
-Before committing, verify that sensitive files are ignored:
-
-```bash
-git status
-git ls-files -- google-credentials.json  # should output nothing
-```
-
-Commit your changes:
-
-```bash
-git add .
-git commit -m "feat: Google Sheets setup and docs"
-git push origin main
-```
-
-## Database Management
-
-### Initialize Database
-
-```bash
-python init_database.py
-```
-
-### Accessing the Database Session
-
-The application provides three ways to access database sessions:
-
-1. **Generator Pattern** (for FastAPI-style dependencies):
-
-   ```python
-   from db import get_db
-
-   for db in get_db():
-       user = db.query(User).first()
-   ```
-
-2. **Direct Session** (manual close required):
-
-   ```python
-   from db import get_db_session
-
-   db = get_db_session()
-   try:
-       user = db.query(User).first()
-   finally:
-       db.close()
-   ```
-
-3. **Context Manager** (automatic commit/rollback):
-
-   ```python
-   from db import DatabaseSession
-
-   with DatabaseSession() as db:
-       user = User(username="john", email="john@example.com")
-       db.add(user)
-       # Automatically commits on successful exit
    ```
 
 ## Project Structure
@@ -178,45 +80,36 @@ The application provides three ways to access database sessions:
 ```
 finco/
 ├── app.py              # Main Streamlit application
-├── models.py           # Database models (SQLAlchemy ORM)
-├── db.py               # Database connection and session management
-├── utils.py            # Utility functions
-├── init_database.py    # Database initialization script
-├── requirements.txt    # Project dependencies
-├── .env                # Environment variables
-├── docs/               # Documentation
-│   ├── APP_STRUCTURE.md
-│   ├── DEPLOYMENT_GUIDE.md
-│   ├── INDIA_LOCALIZATION.md
-│   └── PWA_GUIDE.md
-├── README.md           # This file
-└── finco.db            # SQLite database (created after initialization)
+├── db.py               # Google Sheets data layer with rate limiting
+├── requirements.txt    # Python dependencies
+├── assets/
+│   └── css/style.css   # Carbon monochrome theme
+├── static/
+│   ├── manifest.json   # PWA manifest
+│   └── sw.js           # Service worker
+└── docs/               # Documentation
 ```
 
-## Documentation
+## Deployment
 
-- [Application Structure](docs/APP_STRUCTURE.md)
-- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
-- [India Localization Details](docs/INDIA_LOCALIZATION.md)
-- [PWA Setup Guide](docs/PWA_GUIDE.md)
+See [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) for Streamlit Cloud deployment instructions.
 
-## Database
+## Google Sheets Structure
 
-The application uses SQLite by default (stored in `finco.db`). You can change the database URL in the `.env` file to use a different database.
+Your Google Sheet should have these worksheets:
 
-## Contributing
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+| Worksheet | Columns                                                        |
+| --------- | -------------------------------------------------------------- |
+| Expenses  | Date, Description, Amount, Category, Account, Type, Created At |
+| Income    | Date, Description, Amount, Category, Account, Type, Created At |
+| Accounts  | Name, Balance, Type                                            |
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
-## Acknowledgments
+## Built With
 
-- Built with [Streamlit](https://streamlit.io/)
-- Icons from [Bootstrap Icons](https://icons.getbootstrap.com/)
+- [Streamlit](https://streamlit.io/) - Web framework
+- [streamlit-gsheets-connection](https://github.com/streamlit/gsheets-connection) - Google Sheets integration
+- [Plotly](https://plotly.com/) - Charts and visualizations
