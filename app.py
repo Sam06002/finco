@@ -509,6 +509,10 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
     ]
     df_edit = df_display[display_columns].reset_index(drop=True)
     
+    # Ensure Description is treated as editable string (not auto-detected as link)
+    if "Description" in df_edit.columns:
+        df_edit["Description"] = df_edit["Description"].astype(str)
+    
     # Store original indices for tracking
     original_indices = df_display.index.tolist()
     
