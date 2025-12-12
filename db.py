@@ -2,13 +2,66 @@
 
 from __future__ import annotations
 
-from typing import Dict
+import time
+from functools import wraps
+from typing import Dict, Callable, TypeVar
 
 import pandas as pd
 import streamlit as st
 from gspread.exceptions import WorksheetNotFound
 from streamlit_gsheets import GSheetsConnection
 from streamlit_gsheets.gsheets_connection import GSheetsServiceAccountClient
+
+# Rate limiting configuration
+MAX_RETRIES = 3
+INITIAL_RETRY_DELAY = 2.0  # seconds
+MIN_REQUEST_INTERVAL = 1.0  # minimum seconds between API requests
+_last_request_time: float = 0.0
+
+T = TypeVar('T')
+
+
+def _is_rate_limit_error(exc: Exception) -> bool:
+    """Check if an exception is a Google Sheets rate limit error."""
+    error_msg = str(exc).lower()
+    return "429" in error_msg or "rate_limit_exceeded" in error_msg or "quota" in error_msg
+
+
+def _throttle_request() -> None:
+    """Ensure minimum interval between API requests."""
+    global _last_request_time
+    elapsed = time.time() - _last_request_time
+    if elapsed < MIN_REQUEST_INTERVAL:
+        time.sleep(MIN_REQUEST_INTERVAL - elapsed)
+    _last_request_time = time.time()
+
+
+def retry_on_rate_limit(func: Callable[..., T]) -> Callable[..., T]:
+    """Decorator that retries a function with exponential backoff on rate limit errors."""
+    @wraps(func)
+    def wrapper(*args, **kwargs) -> T:
+        _throttle_request()
+        
+        last_exception = None
+        for attempt in range(MAX_RETRIES):
+            try:
+                return func(*args, **kwargs)
+            except Exception as exc:
+                if not _is_rate_limit_error(exc):
+                    raise
+                
+                last_exception = exc
+                if attempt < MAX_RETRIES - 1:
+                    delay = INITIAL_RETRY_DELAY * (2 ** attempt)
+                    time.sleep(delay)
+        
+        # All retries exhausted
+        raise RuntimeError(
+            f"Rate limit exceeded after {MAX_RETRIES} retries. "
+            "Please wait a moment before trying again."
+        ) from last_exception
+    
+    return wrapper
 
 _CONFIG = (
     st.secrets.get("gsheets")
@@ -55,6 +108,7 @@ def get_connection() -> GSheetsConnection:
     return st.connection("gsheets", type=GSheetsConnection)
 
 
+@retry_on_rate_limit
 def _read_sheet(worksheet: str, *, required: bool = True) -> pd.DataFrame:
     try:
         df = get_connection().read(
@@ -73,6 +127,7 @@ def _read_sheet(worksheet: str, *, required: bool = True) -> pd.DataFrame:
     return df.fillna("")
 
 
+@retry_on_rate_limit
 def _write_sheet(worksheet: str, data: pd.DataFrame) -> None:
     try:
         get_connection().update(
