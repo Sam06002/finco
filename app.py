@@ -533,7 +533,8 @@ def display_editable_transactions(df: pd.DataFrame, is_expense: bool):
             "Description": st.column_config.TextColumn(
                 "Description",
                 help="Transaction description",
-                max_chars=200
+                max_chars=200,
+                disabled=False,
             ),
             "Category": st.column_config.TextColumn(
                 "Category",
